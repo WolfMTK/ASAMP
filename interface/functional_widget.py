@@ -20,11 +20,13 @@ class Functional(SettingsWidgets):
         self.add_functional()
 
     def add_functional(self) -> None:
+        """Добавление функционала."""
         self.add_functional_push_button()
         self.add_functional_combo_box()
 
     def add_functional_push_button(self) -> None:
-        # self.push_button_clear.clicked.connect()
+        """Добавление функционала для кнопок."""
+        self.push_button_clear.clicked.connect(self.clear_data)
 
         self.push_button_edit.clicked.connect(self.open_window_database)
 
@@ -35,6 +37,7 @@ class Functional(SettingsWidgets):
         # self.push_button_save.clicked.connect()
 
     def add_functional_combo_box(self):
+        """Добавление функционала для комбинированных кнопок."""
         self.combo_box_type_part.setEditable(True)
         copy_part = self.list_part.copy()
         copy_part.insert(0, '')
@@ -116,5 +119,14 @@ class Functional(SettingsWidgets):
         return self.make_active_combo_box()
 
     def open_window_database(self):
+        """Открытие окна с базой данных."""
         self.window_database.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.window_database.show()
+
+    def clear_data(self):
+        """Очистка полей с данными."""
+        self.line_edit_name_part.clear()
+        self.text_edit_result.clear()
+        self.combo_box_brand.setCurrentIndex(0)
+        self.combo_box_material.setCurrentIndex(0)
+        self.combo_box_type_part.setCurrentIndex(0)

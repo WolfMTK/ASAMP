@@ -7,6 +7,8 @@ from interface.widgets.central_widget import CentralWidget
 
 
 class EntryWidget(CentralWidget):
+    """Виджет: ввод параметров."""
+
     def __init__(self):
         super(EntryWidget, self).__init__()
         self.entry_widget = QWidget(self.central_widget)

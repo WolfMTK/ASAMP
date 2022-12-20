@@ -4,6 +4,8 @@ from interface.widgets.central_widget import CentralWidget
 
 
 class FunctionalWidget(CentralWidget):
+    """Виджет: функционал."""
+
     def __init__(self):
         super(FunctionalWidget, self).__init__()
         self.functional_widget = QWidget(self.central_widget)

@@ -4,6 +4,8 @@ from interface.core import Core
 
 
 class DatabaseWidget(Core):
+    """Виджет: база данных."""
+
     def __init__(self, *args, **kwargs):
         super(DatabaseWidget, self).__init__(*args, **kwargs)
         self.database_widget = QWidget(self)

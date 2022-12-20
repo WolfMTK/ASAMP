@@ -13,6 +13,7 @@ class SettingsWidgets(FunctionalWidget,
         self.add_settings()
 
     def add_settings(self) -> None:
+        """Добавление настроек."""
         self.set_grid_layouts()
         self.set_widgets()
         self.set_push_buttons()
@@ -25,6 +26,7 @@ class SettingsWidgets(FunctionalWidget,
         self.set_line_edit()
 
     def set_grid_layouts(self):
+        """Настройки вравнивания по сетке."""
         """Настройка выравнивания по сетке."""
         self.grid_layout_central.addWidget(self.functional_widget, 2, 0, 1, 1)
         self.grid_layout_central.addWidget(self.result_widget, 0, 1, 3, 1)

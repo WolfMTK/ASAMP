@@ -4,6 +4,8 @@ from interface.widgets.central_widget import CentralWidget
 
 
 class ResultWidget(CentralWidget):
+    """Виджет: результат."""
+
     def __init__(self):
         super(ResultWidget, self).__init__()
         self.result_widget = QWidget(self.central_widget)

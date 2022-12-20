@@ -4,6 +4,8 @@ from interface.core import Core
 
 
 class CentralWidget(Core):
+    """Центральный виджет."""
+
     def __init__(self, *args, **kwargs):
         super(CentralWidget, self).__init__(*args, **kwargs)
         self.central_widget = QWidget(self)

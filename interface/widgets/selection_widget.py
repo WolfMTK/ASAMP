@@ -4,6 +4,8 @@ from interface.widgets.central_widget import CentralWidget
 
 
 class SelectionWidget(CentralWidget):
+    """Виджет: установка значений."""
+
     def __init__(self):
         super(SelectionWidget, self).__init__()
         self.selection_widget = QWidget(self.central_widget)

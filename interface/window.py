@@ -6,11 +6,14 @@ from interface.functional_widget import Functional
 
 
 class Window(Functional):
+    """Главное окно."""
+
     def __init__(self):
         super(Window, self).__init__()
         self.set_window()
 
     def set_window(self):
+        """Настройки окна."""
         self.setWindowTitle('ASAMP')
         self.setMinimumSize(850, 600)
 

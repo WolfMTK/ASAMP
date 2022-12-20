@@ -7,6 +7,8 @@ from interface.widgets.database_widget import DatabaseWidget
 
 
 class TableDatabaseWidget(DatabaseWidget):
+    """Виджет: таблица базы данных."""
+
     def __init__(self) -> None:
         super(TableDatabaseWidget, self).__init__()
         self.table_database_widget = QWidget(self.database_widget)

@@ -11,6 +11,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.add_settings()
 
     def add_settings(self):
+        """Добавление настроек."""
         self.set_label()
         self.set_push_button()
         self.set_widget()
@@ -20,6 +21,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.set_vertical_layout()
 
     def set_widget(self):
+        """Настройки виджета."""
         self.database_widget.setObjectName('widgetDatabase')
         style_database_widget = '''
         #widgetDatabase{
@@ -66,6 +68,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.button_widget.setStyleSheet(style_button_widget)
 
     def set_grid_layout(self):
+        """Настройки выравнивания по сетке."""
         self.grid_layout_database.addWidget(self.functional_widget, 0, 0, 1, 1)
         self.grid_layout_database.addWidget(self.table_database_widget, 0, 1, 2, 1)
 
@@ -81,6 +84,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.grid_layout_functional.addWidget(self.push_button_exit, 4, 1, 1, 1)
 
     def set_label(self):
+        """Настройки текста."""
         self.label_material.setObjectName('labelMaterial')
         self.label_material.setText('Материал:')
         style_label_material = '''
@@ -132,6 +136,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.label_exit.setStyleSheet(style_label_exit)
 
     def set_push_button(self):
+        """Настройки кнопок."""
         self.push_button_material.setObjectName('pushButtonMaterial')
         self.push_button_material.setFixedSize(37, 35)
         style_material = '''
@@ -301,6 +306,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.push_button_save.setStyleSheet(style_save)
 
     def set_table(self):
+        """Настройки таблицы."""
         self.table_database.setObjectName('tableDatabase')
         style = '''
         #tableDatabase{
@@ -313,6 +319,7 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.table_database.setStyleSheet(style)
 
     def set_horizontal_layout(self):
+        """Настройки горизонтального выравнивания."""
         self.h_layout_table.addWidget(self.table_database)
 
         self.h_layout_button.addWidget(self.push_button_add, Qt.AlignmentFlag.AlignRight)
@@ -321,5 +328,6 @@ class SettingsDatabaseWidget(FunctionalDatabaseWidget, TableDatabaseWidget):
         self.h_layout_button.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
 
     def set_vertical_layout(self):
+        """Настройки вертикального выравнивания."""
         self.v_layout_database_table.addWidget(self.table_widget)
         self.v_layout_database_table.addWidget(self.button_widget)

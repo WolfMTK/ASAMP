@@ -4,6 +4,8 @@ from interface.widgets.database_widget import DatabaseWidget
 
 
 class FunctionalDatabaseWidget(DatabaseWidget):
+    """Виджет: функционал базы данных."""
+
     def __init__(self):
         super(FunctionalDatabaseWidget, self).__init__()
         self.functional_widget = QWidget(self.database_widget)
