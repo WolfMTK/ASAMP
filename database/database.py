@@ -16,9 +16,13 @@ class Database:
     def connect(self) -> Tuple[Connection, Cursor]:
         """Подключение базы данных."""
         load_dotenv(find_dotenv())
-        connect = sqlite3.connect(os.getenv('DATABASE'))
-        cursor = connect.cursor()
-        return connect, cursor
+        try:
+            connect = sqlite3.connect(os.getenv('DATABASE'))
+            cursor = connect.cursor()
+            return connect, cursor
+        except sqlite3.OperationalError:
+            raise ConnectionError('Подключение к базе данных отстутствует!')
+
 
     @property
     def open_sql(self) -> str:

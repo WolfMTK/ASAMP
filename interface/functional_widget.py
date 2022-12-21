@@ -57,7 +57,7 @@ class Functional(SettingsWidgets):
         self.combo_box_brand.clear()
         material = self.combo_box_material.currentText()
         if self.flag:
-            self.list_brand = Material(material).get_brand()
+            self.list_brand = Material(material).get_brand
             copy_brand = self.list_brand.copy()
             copy_brand.insert(0, '')
             self.combo_box_brand.setEditable(self.flag)

@@ -1,0 +1,2 @@
+INSERT INTO part
+VALUES (NULL, ?)
