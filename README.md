@@ -10,13 +10,21 @@
 ## Применяемые библиотеки в данном проекте
 
 **flake8==6.0.0**
+
 **flake8-blind-except==0.2.1**
+
 **flake8-builtins==2.1.0**
+
 **flake8-docstrings==1.6.0**
+
 **flake8-import-order==0.18.2**
+
 **flake8-logging-format==0.9.0**
+
 **flake8-rst-docstrings==0.3.0**
+
 **PySide6==6.4.2**
+
 [requirements.txt](https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt)
 
 ## Запуск проекта
