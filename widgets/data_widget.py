@@ -39,9 +39,9 @@ class DataWidget(Widget):
         self.add_name_objects_for_table_widget()
         self.add_style_for_table_widget()
 
-    # def add_fixed_size_for_widget(self) -> None:
-    #     """Добавить фиксированные размеры для виджета."""
-    #     self.widget.setFixedSize(WIDTH_DATA_WIDGET, HEIGHT_DATA_WIDGET)
+    def add_fixed_size_for_widget(self) -> None:
+        """Добавить фиксированные размеры для виджета."""
+        self.widget.setFixedSize(WIDTH_DATA_WIDGET, HEIGHT_DATA_WIDGET)
 
     def add_parameters_for_label(self) -> None:
         """Добавить параметры для элементов текста."""
