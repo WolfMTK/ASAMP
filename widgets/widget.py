@@ -11,10 +11,10 @@ class Widget:
     name_objets: str
     style_widget: str
 
-    def add_name_for_objects(self):
+    def add_name_for_objects(self) -> None:
         """Добавить имя для объектов."""
         self.widget.setObjectName(self.name_objets)
 
-    def add_style(self):
+    def add_style(self) -> None:
         """Добавить стиль для виджета."""
         self.widget.setStyleSheet(self.style_widget)

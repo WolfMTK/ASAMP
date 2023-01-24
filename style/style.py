@@ -16,6 +16,18 @@ STYLE_PARAMETERS_WIDGET = ("""
                              border-radius: 10px;
                            }
                            """)
+STYLE_DATA_WIDGET = ("""
+                     #dataWidget{
+                       background-color: white;
+                       border-radius: 10px;
+                     }
+                     """)
+STYLE_RESULT_WIDGET = ("""
+                       #resultWidget{
+                         background-color: white;
+                         border-radius: 10px;
+                       }
+                       """)
 
 # Стиль для кнопок.
 STYLE_PUSH_BUTTON_CLEAR = ("""
@@ -135,6 +147,13 @@ STYLE_LABEL_NAME_PART = ("""
                          }
                          """)
 
+STYLE_LABEL_DATA_TABLE_WIDGET = ("""
+                                 #labelDataTableWidget{
+                                   font-size: 20px;
+                                   font-family: bold "Times New Roman";
+                                 }
+                                 """)
+
 # Стиль для комбинированных кнопок.
 STYLE_COMBO_BOX_MATERIAL = ("""
                             #comboBoxMaterial{
@@ -250,3 +269,23 @@ STYLE_COMBO_BOX_TYPE_PART = ("""
                                background-color: #1e90ff;
                              }
                              """)
+
+# Стиль для таблиц.
+STYLE_DATA_TABLE_WIDGET = ("""
+                           #dataTableWidget{
+                             background-color: white;
+                             border-radius: 10px;
+                             font-size: 20px;
+                             font-family: bold "Times New Roman";
+                           }
+                           """)
+
+# Стиль для изменяемого текста
+STYLE_TEXT_EDIT_RESULT = ("""
+                          #textEditResult{
+                            background-color: white;
+                            border-radius: 10px;
+                            font-size: 20px;
+                            font-family: bold "Times New Roman";
+                          }
+                          """)

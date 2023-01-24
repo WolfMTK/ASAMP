@@ -6,12 +6,14 @@ from widgets.widget import Widget
 
 
 class CentralWidget(Widget):
-    def __init__(self, window: QMainWindow):
-        self.widget = QWidget(window)
-        self.add_objects_for_widget()
+    """Центральные виджет для главного окна."""
 
-    def add_objects_for_widget(self):
-        """Добавление объектов для виджета."""
+    def __init__(self, window: QMainWindow) -> None:
+        self.widget = QWidget(window)
+        self.add_parameters_for_widget()
+
+    def add_parameters_for_widget(self) -> None:
+        """Добавить параметры для виджета."""
         self.name_objets = NAME_CENTRAL_WIDGET
         self.style_widget = STYLE_CENTRAL_WIDGET
         self.add_name_for_objects()
