@@ -38,4 +38,4 @@
 
 ## Лицензия
 
-[License: NOT](https://github.com/WolfMTK/ASAMP/blob/master/LICENSE)
+[License: MIT](https://github.com/WolfMTK/ASAMP/blob/master/LICENSE)
