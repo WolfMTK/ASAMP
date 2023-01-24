@@ -16,4 +16,10 @@
 <p><b><i><u>flake8-rst-docstrings==0.3.0</u></i></b></p>
 <p><b><i><u>PySide6==6.4.2</u></i></b></p>
 
-<a href="https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt"</a>
+<a href="https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt">requirements.txt</a>
+  
+<h2>Запуск проекта</h2>
+<p><b>1. Создайте <a href="https://docs.python.org/3/library/venv.html">виртуальное окружение</a></b></p>
+<p><b>2. Установите необходимые библиотеки командой:</b></p>
+  `linux: python3 -m pip install -r requirements.txt`
+  `windows: py -m pip install -r requirements.txt`
