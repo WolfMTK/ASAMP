@@ -35,3 +35,7 @@
 `linux: python3 -m pip install -r requirements.txt`
 
 `windows: py -m pip install -r requirements.txt`
+
+## Лицензия
+
+[License: NOT](https://github.com/WolfMTK/ASAMP/blob/master/LICENSE)
