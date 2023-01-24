@@ -7,14 +7,13 @@
 <a href="https://www.python.org/downloads/release/python-3810/">Python 3.8.10</a>
 
 <h2>Применяемые библиотеки в данном проекте</h2>
-<p>
-  <b><i><u>flake8==6.0.0</u></i></b>
-  <b><i><u>flake8-blind-except==0.2.1</u></i></b>
-  <b><i><u>flake8-builtins==2.1.0</u></i></b>
-  <b><i><u>flake8-docstrings==1.6.0</u></i></b>
-  <b><i><u>flake8-import-order==0.18.2</u></i></b>
-  <b><i><u>flake8-logging-format==0.9.0</u></i></b>
-  <b><i><u>flake8-rst-docstrings==0.3.0</u></i></b>
-  <b><i><u>PySide6==6.4.2</u></i></b>
-</p>
+<p><b><i><u>flake8==6.0.0</u></i></b></p>
+<p><b><i><u>flake8-blind-except==0.2.1</u></i></b></p>
+<p><b><i><u>flake8-builtins==2.1.0</u></i></b></p>
+<p><b><i><u>flake8-docstrings==1.6.0</u></i></b></p>
+<p><b><i><u>flake8-import-order==0.18.2</u></i></b></p>
+<p><b><i><u>flake8-logging-format==0.9.0</u></i></b></p>
+<p><b><i><u>flake8-rst-docstrings==0.3.0</u></i></b></p>
+<p><b><i><u>PySide6==6.4.2</u></i></b></p>
+
 <a href="https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt"</a>
