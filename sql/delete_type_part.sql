@@ -1,1 +1,0 @@
-DELETE FROM part WHERE type_part = ?
