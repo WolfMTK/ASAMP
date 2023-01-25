@@ -18,9 +18,9 @@ class Database:
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
         cursor.execute(request)
-        list_material = self.__get_list_material(cursor.fetchall())
+        list_materials = self.__get_list_materials(cursor.fetchall())
         connect.close()
-        return list_material
+        return list_materials
 
     @property
     def get_type_part_with_database(self):
@@ -32,9 +32,9 @@ class Database:
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
         cursor.execute(request)
-        list_type_part = self.__get_list_type_part(cursor.fetchall())
+        list_type_parts = self.__get_list_type_parts(cursor.fetchall())
         connect.close()
-        return list_type_part
+        return list_type_parts
 
     def get_brand_with_database(self, material: str) -> List[str]:
         """Получить марку материала с базы данных."""
@@ -46,20 +46,37 @@ class Database:
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
         cursor.execute(request, (material, ))
-        list_brand = self.__get_list_brand(cursor.fetchall())
+        list_brands = self.__get_list_brands(cursor.fetchall())
         connect.close()
-        return list_brand
+        return list_brands
+
+    def get_parameters_with_database(self, type_part: str) -> List[str]:
+        """Получить параметры с базы данных."""
+        request = """SELECT parameters.parameter
+                     FROM parameters
+                     JOIN parts on parts.id = parameters.id_part
+                     WHERE parts.type_part = ?"""
+        connect = sqlite3.connect("database.sqlite")
+        cursor = connect.cursor()
+        cursor.execute(request, (type_part, ))
+        list_parameters = self.__get_list_parameters(cursor.fetchall())
+        connect.close()
+        return list_parameters
 
     @staticmethod
-    def __get_list_brand(data: List[Tuple[str]]) -> List[str]:
+    def __get_list_parameters(data: List[Tuple[str]]) -> List[str]:
+        return [parameter[0] for parameter in data]
+
+    @staticmethod
+    def __get_list_brands(data: List[Tuple[str]]) -> List[str]:
         return [brand[0] for brand in data]
 
     @staticmethod
-    def __get_list_material(data: List[Tuple[str]]) -> List[str]:
+    def __get_list_materials(data: List[Tuple[str]]) -> List[str]:
         return [material[0] for material in data]
 
     @staticmethod
-    def __get_list_type_part(data: List[Tuple[str]]) -> List[str]:
+    def __get_list_type_parts(data: List[Tuple[str]]) -> List[str]:
         return [type_part[0] for type_part in data]
 
     @staticmethod
@@ -71,7 +88,14 @@ class Database:
                                                           PRIMARY KEY(id));
                      CREATE TABLE IF NOT EXISTS parts(id INTEGER,
                                                       type_part TEXT,
-                                                      PRIMARY KEY(id))"""
+                                                      PRIMARY KEY(id));
+                     CREATE TABLE IF NOT EXISTS parameters(
+                     id INTEGER,
+                     id_part INTEGER,
+                     parameter TEXT,
+                     PRIMARY KEY(id),
+                     FOREIGN KEY(id_part) REFERENCES parts(id)
+                     );"""
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
         cursor.executescript(request)
@@ -79,4 +103,4 @@ class Database:
 
 
 if __name__ == "__main__":
-    print(Database().get_type_part_with_database)
+    print(Database().get_parameters_with_database('Вал'))
