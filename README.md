@@ -29,7 +29,13 @@
 
 ## Запуск проекта
 
-1. Создайте [виртуальное окружение](https://docs.python.org/3/library/venv.html)
-2. Установите необходимые библиотеки командой:
-2.1 linux: python3 -m pip install -r requirements.txt
-2.2. windows: py -m pip install -r requirements.txt
+1) Создайте [виртуальное окружение](https://docs.python.org/3/library/venv.html)
+2) Установите необходимые библиотеки командой:
+
+`linux: python3 -m pip install -r requirements.txt`
+
+`windows: py -m pip install -r requirements.txt`
+
+## Лицензия
+
+[License: MIT](https://github.com/WolfMTK/ASAMP/blob/master/LICENSE)
