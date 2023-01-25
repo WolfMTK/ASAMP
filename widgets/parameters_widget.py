@@ -18,7 +18,14 @@ from name_objects.name_objects import (NAME_PARAMETERS_WIDGET,
                                        NAME_COMBO_BOX_BRAND,
                                        NAME_COMBO_BOX_TYPE_PART)
 from style.size_objects import (WIDTH_PARAMETERS_WIDGET,
-                                HEIGHT_PARAMETERS_WIDGET)
+                                HEIGHT_PARAMETERS_WIDGET,
+                                WIDTH_PUSH_BUTTON_EDIT_DATABASE,
+                                HEIGHT_PUSH_EDIT_DATABASE,
+                                WIDTH_COMBO_BOX_MATERIAL,
+                                HEIGHT_COMBO_BOX_MATERIAL,
+                                HEIGHT_COMBO_BOX_BRAND, WIDTH_COMBO_BOX_BRAND,
+                                WIDTH_COMBO_BOX_TYPE_PART,
+                                HEIGHT_COMBO_BOX_TYPE_PART)
 from style.style import (STYLE_PARAMETERS_WIDGET,
                          STYLE_PUSH_BUTTON_EDIT_DATABASE,
                          STYLE_LINE_EDIT_DATABASE,
@@ -61,7 +68,7 @@ class ParametersWidget(Widget):
         self.add_parameters_for_push_button()
         self.add_parameters_for_line_edit()
         self.add_parameters_for_label()
-        self.add_parameters_for_combo_boxs()
+        self.add_parameters_for_combo_boxes()
 
     def add_parameters_for_widget(self) -> None:
         """Добавить параметры для виджета."""
@@ -77,6 +84,7 @@ class ParametersWidget(Widget):
         """Добавить параметры для кнопки."""
         self.add_name_objects_for_push_button()
         self.add_style_for_push_button()
+        self.add_fixed_size_for_push_button()
 
     def add_parameters_for_line_edit(self) -> None:
         """Добавить параметры для поля изменения текста."""
@@ -90,10 +98,11 @@ class ParametersWidget(Widget):
         self.add_style_for_label()
         self.add_text_for_label()
 
-    def add_parameters_for_combo_boxs(self) -> None:
+    def add_parameters_for_combo_boxes(self) -> None:
         """Добавить параметры для комбинированных кнопок."""
-        self.add_name_objects_for_combo_boxs()
-        self.add_style_for_combo_boxs()
+        self.add_name_objects_for_combo_boxes()
+        self.add_style_for_combo_boxes()
+        self.add_fixed_size_for_combo_boxes()
 
     def add_fixed_size_for_widget(self) -> None:
         """Добавить фиксированные размеры для виджета."""
@@ -129,6 +138,12 @@ class ParametersWidget(Widget):
         """Добавить стиль для кнопки."""
         self.push_button_edit_database.setStyleSheet(
             STYLE_PUSH_BUTTON_EDIT_DATABASE
+        )
+
+    def add_fixed_size_for_push_button(self) -> None:
+        """Добавить фиксированный размер для кнопки."""
+        self.push_button_edit_database.setFixedSize(
+            WIDTH_PUSH_BUTTON_EDIT_DATABASE, HEIGHT_PUSH_EDIT_DATABASE
         )
 
     def add_name_objects_for_line_edit(self) -> None:
@@ -167,14 +182,24 @@ class ParametersWidget(Widget):
         self.label_type_part.setText("Класс детали:")
         self.label_name_part.setText("Название детали:")
 
-    def add_name_objects_for_combo_boxs(self) -> None:
+    def add_name_objects_for_combo_boxes(self) -> None:
         """Добавить название объектов для комбинированных кнопок."""
         self.combo_box_material.setObjectName(NAME_COMBO_BOX_MATERIAL)
         self.combo_box_brand.setObjectName(NAME_COMBO_BOX_BRAND)
         self.combo_box_type_part.setObjectName(NAME_COMBO_BOX_TYPE_PART)
 
-    def add_style_for_combo_boxs(self) -> None:
+    def add_style_for_combo_boxes(self) -> None:
         """Добавить стиль для комбинированных кнопок."""
         self.combo_box_material.setStyleSheet(STYLE_COMBO_BOX_MATERIAL)
         self.combo_box_brand.setStyleSheet(STYLE_COMBO_BOX_BRAND)
         self.combo_box_type_part.setStyleSheet(STYLE_COMBO_BOX_TYPE_PART)
+
+    def add_fixed_size_for_combo_boxes(self) -> None:
+        """Добавить фиксированный размер
+        для комбинированных кнопок."""
+        self.combo_box_material.setFixedSize(WIDTH_COMBO_BOX_MATERIAL,
+                                             HEIGHT_COMBO_BOX_MATERIAL)
+        self.combo_box_brand.setFixedSize(WIDTH_COMBO_BOX_BRAND,
+                                          HEIGHT_COMBO_BOX_BRAND)
+        self.combo_box_type_part.setFixedSize(WIDTH_COMBO_BOX_TYPE_PART,
+                                              HEIGHT_COMBO_BOX_TYPE_PART)

@@ -22,9 +22,9 @@ class DataWidget(Widget):
 
     def add_objects_for_widget(self) -> None:
         """Добавить объекты для виджета."""
+        self.add_parameters_for_widget()
         self.add_parameters_for_table()
         self.add_parameters_for_label()
-        self.add_parameters_for_widget()
 
     def add_parameters_for_widget(self) -> None:
         """Добавить параметры для виджета."""
@@ -34,20 +34,20 @@ class DataWidget(Widget):
         self.add_style()
         self.add_vertical_layout_for_widgets()
 
-    def add_parameters_for_table(self) -> None:
-        """Добавить параметры для таблицы."""
-        self.add_name_objects_for_table_widget()
-        self.add_style_for_table_widget()
-
+    # TODO: в данный момент метод не применяется.
     def add_fixed_size_for_widget(self) -> None:
         """Добавить фиксированные размеры для виджета."""
         self.widget.setFixedSize(WIDTH_DATA_WIDGET, HEIGHT_DATA_WIDGET)
 
-    def add_parameters_for_label(self) -> None:
-        """Добавить параметры для элементов текста."""
-        self.add_name_objects_for_label()
-        self.add_style_for_label()
-        self.add_text_for_label()
+    def add_vertical_layout_for_widgets(self) -> None:
+        """Добавить вертикальное выравнивание для виджетов."""
+        self.vertical_layout.addWidget(self.data_label_widget)
+        self.vertical_layout.addWidget(self.data_table_widget)
+
+    def add_parameters_for_table(self) -> None:
+        """Добавить параметры для таблицы."""
+        self.add_name_objects_for_table_widget()
+        self.add_style_for_table_widget()
 
     def add_name_objects_for_table_widget(self) -> None:
         """Добавить название объектам для таблицы."""
@@ -56,6 +56,12 @@ class DataWidget(Widget):
     def add_style_for_table_widget(self) -> None:
         """Добавить стиль для таблицы."""
         self.data_table_widget.setStyleSheet(STYLE_DATA_TABLE_WIDGET)
+
+    def add_parameters_for_label(self) -> None:
+        """Добавить параметры для элементов текста."""
+        self.add_name_objects_for_label()
+        self.add_style_for_label()
+        self.add_text_for_label()
 
     def add_name_objects_for_label(self) -> None:
         """Добавить название объектов для текста."""
@@ -68,8 +74,3 @@ class DataWidget(Widget):
     def add_text_for_label(self) -> None:
         """Добавить текст для элемента текста."""
         self.data_label_widget.setText('Анализ технологичности детали')
-
-    def add_vertical_layout_for_widgets(self) -> None:
-        """Добавить вертикальное выравнивание для виджетов."""
-        self.vertical_layout.addWidget(self.data_label_widget)
-        self.vertical_layout.addWidget(self.data_table_widget)

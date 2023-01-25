@@ -5,7 +5,15 @@ from name_objects.name_objects import (NAME_ACTION_WIDGET,
                                        NAME_PUSH_BUTTON_EXIT,
                                        NAME_PUSH_BUTTON_RESULT,
                                        NAME_PUSH_BUTTON_SAVE)
-from style.size_objects import WIDTH_ACTION_WIDGET, HEIGHT_ACTION_WIDGET
+from style.size_objects import (WIDTH_ACTION_WIDGET, HEIGHT_ACTION_WIDGET,
+                                WIDTH_PUSH_BUTTON_CLEAR,
+                                HEIGHT_PUSH_BUTTON_CLEAR,
+                                HEIGHT_PUSH_BUTTON_EXIT,
+                                WIDTH_PUSH_BUTTON_EXIT,
+                                WIDTH_PUSH_BUTTON_RESULT,
+                                HEIGHT_PUSH_BUTTON_RESULT,
+                                HEIGHT_PUSH_BUTTON_SAVE,
+                                WIDTH_PUSH_BUTTON_SAVE)
 from style.style import (STYLE_ACTION_WIDGET, STYLE_PUSH_BUTTON_CLEAR,
                          STYLE_PUSH_BUTTON_RESULT, STYLE_PUSH_BUTTON_SAVE,
                          STYLE_PUSH_BUTTON_EXIT)
@@ -43,10 +51,18 @@ class ActionWidget(Widget):
         """Добавить параметры для кнопок."""
         self.add_style_for_push_buttons()
         self.add_text_in_push_buttons()
+        self.add_fixed_size_for_push_buttons()
 
     def add_size_fixed_for_widget(self) -> None:
         """Добавить фиксированные размеры для виджета."""
         self.widget.setFixedSize(WIDTH_ACTION_WIDGET, HEIGHT_ACTION_WIDGET)
+
+    def add_grid_layout_for_widgets(self) -> None:
+        """Добавить выравнивание по сетке для виджетов."""
+        self.grid_layout.addWidget(self.push_button_clear, 1, 0, 1, 1)
+        self.grid_layout.addWidget(self.push_button_exit, 1, 1, 1, 1)
+        self.grid_layout.addWidget(self.push_button_result, 0, 0, 1, 1)
+        self.grid_layout.addWidget(self.push_button_save, 0, 1, 1, 1)
 
     def add_name_objects_for_push_buttons(self) -> None:
         """Добавить название объектов для кнопок."""
@@ -62,16 +78,20 @@ class ActionWidget(Widget):
         self.push_button_result.setStyleSheet(STYLE_PUSH_BUTTON_RESULT)
         self.push_button_save.setStyleSheet(STYLE_PUSH_BUTTON_SAVE)
 
-    def add_grid_layout_for_widgets(self) -> None:
-        """Добавить выравнивание по сетке для виджетов."""
-        self.grid_layout.addWidget(self.push_button_clear, 1, 0, 1, 1)
-        self.grid_layout.addWidget(self.push_button_exit, 1, 1, 1, 1)
-        self.grid_layout.addWidget(self.push_button_result, 0, 0, 1, 1)
-        self.grid_layout.addWidget(self.push_button_save, 0, 1, 1, 1)
-
     def add_text_in_push_buttons(self) -> None:
         """Добавить текст в кнопки."""
         self.push_button_clear.setText("ОЧИСТИТЬ")
         self.push_button_exit.setText("ВЫХОД")
         self.push_button_result.setText("РЕЗУЛЬТАТ")
         self.push_button_save.setText("СОХРАНИТЬ")
+
+    def add_fixed_size_for_push_buttons(self) -> None:
+        """Добавить фиксированный размер для кнопок."""
+        self.push_button_clear.setFixedSize(WIDTH_PUSH_BUTTON_CLEAR,
+                                            HEIGHT_PUSH_BUTTON_CLEAR)
+        self.push_button_exit.setFixedSize(WIDTH_PUSH_BUTTON_EXIT,
+                                           HEIGHT_PUSH_BUTTON_EXIT)
+        self.push_button_result.setFixedSize(WIDTH_PUSH_BUTTON_RESULT,
+                                             HEIGHT_PUSH_BUTTON_RESULT)
+        self.push_button_save.setFixedSize(WIDTH_PUSH_BUTTON_SAVE,
+                                           HEIGHT_PUSH_BUTTON_SAVE)
