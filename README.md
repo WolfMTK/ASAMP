@@ -24,9 +24,7 @@
 
 **PySide6==6.4.2**
 
-**Остальные:**
-
-[requirements.txt](https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt)
+**Остальные:** [requirements.txt](https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt)
 
 ## Запуск проекта
 
