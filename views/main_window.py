@@ -5,7 +5,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QApplication,
                                QMainWindow,
                                QGridLayout,
-                               QCompleter)
+                               QCompleter, QTableWidgetItem, QHeaderView)
 
 from database.database import Database
 from style.size_objects import WIDTH_MAIN_WINDOW, HEIGHT_MAIN_WINDOW
@@ -16,6 +16,8 @@ from widgets.central_widget import CentralWidget
 from widgets.data_widget import DataWidget
 from widgets.parameters_widget import ParametersWidget
 from widgets.result_widget import ResultWidget
+
+VALUE_COLUMN_IN_TABLE = 2
 
 
 class MainWindow(QMainWindow):
@@ -40,6 +42,7 @@ class MainWindow(QMainWindow):
         self.add_grid_layout_for_widgets()
         self.add_click_for_buttons()
         self.add_functional_for_combo_box()
+        self.deactivate_text_edit_result()
 
     def add_minimum_size_for_window(self) -> None:
         """Добавить минимальный размер окна."""
@@ -113,6 +116,9 @@ class MainWindow(QMainWindow):
         self.parameters_widget.combo_box_material.currentTextChanged.connect(
             self.activate_an_inactive_combo_box
         )
+        self.parameters_widget.combo_box_type_part.currentTextChanged.connect(
+            self.add_functional_for_table_widget
+        )
 
     def activate_an_inactive_combo_box(self) -> None:
         """Активировать неактивную комбинированную кнопку."""
@@ -163,6 +169,65 @@ class MainWindow(QMainWindow):
             QCompleter(data)
         )
 
+    def deactivate_text_edit_result(self) -> None:
+        """Деактивировать изменяемый текст с результатом."""
+        self.result_widget.text_edit_result.setEnabled(False)
+
+    def add_functional_for_table_widget(self) -> None:
+        parameters = self.__get_parameters(
+            self.get_text_from_combo_box_type_part()
+        )
+        self.clear_data_in_table_widget()
+        self.add_column_in_table_widget(parameters)
+        self.remove_name_column_with_table_widget()
+        self.add_data_in_table_widget(parameters)
+        self.set_sections_in_table_widget()
+
+    def get_text_from_combo_box_type_part(self) -> None:
+        """Получение текста с комбинированной кнопки класса детали"""
+        return self.parameters_widget.combo_box_type_part.currentText()
+
+    def clear_data_in_table_widget(self) -> None:
+        """Очистить данные в таблице."""
+        index_column = 0
+        self.data_widget.data_table_widget.clear()
+        self.data_widget.data_table_widget.setColumnCount(index_column)
+        self.data_widget.data_table_widget.setRowCount(index_column)
+
+    def add_column_in_table_widget(self, data: List[str]) -> None:
+        """Добавить колонки в таблицу."""
+        self.data_widget.data_table_widget.setRowCount(len(data))
+        self.data_widget.data_table_widget.setColumnCount(
+            VALUE_COLUMN_IN_TABLE
+        )
+
+    def remove_name_column_with_table_widget(self) -> None:
+        """Убрать название колонок с таблице."""
+        self.data_widget.data_table_widget.horizontalHeader().setVisible(False)
+        self.data_widget.data_table_widget.verticalHeader().setVisible(False)
+
+    def add_data_in_table_widget(self, data: List[str]) -> None:
+        """Добавление данных в таблицу."""
+        for index, parameter in enumerate(data):
+            self.data_widget.data_table_widget.setItem(
+                index, 0, QTableWidgetItem(parameter)
+            )
+
+    def set_sections_in_table_widget(self) -> None:
+        """Задать размеры секций в таблице."""
+        (self.data_widget
+         .data_table_widget
+         .horizontalHeader()
+         .setMinimumSectionSize(30))
+        (self.data_widget
+         .data_table_widget
+         .horizontalHeader()
+         .setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents))
+        (self.data_widget
+         .data_table_widget
+         .horizontalHeader()
+         .setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents))
+
     def clear_field_data(self) -> None:
         """Очистить данные полей."""
 
@@ -177,6 +242,10 @@ class MainWindow(QMainWindow):
     @staticmethod
     def __get_brand(material: str) -> List[str]:
         return Database().get_brand_with_database(material)
+
+    @staticmethod
+    def __get_parameters(type_part: str) -> List[str]:
+        return Database().get_parameters_with_database(type_part)
 
     @staticmethod
     def __add_null_argument(data: List[str]) -> List[str]:
