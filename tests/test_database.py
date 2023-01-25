@@ -27,7 +27,7 @@ def test_error_get_type_part_with_database():
     try:
         get_type_part_with_database()
     except AttributeError:
-        pytest.fail("Нет '' в Database!")
+        pytest.fail("Нет 'get_type_part_with_database' в Database!")
 
 
 def get_type_part_with_database():
@@ -44,8 +44,24 @@ def test_get_brand_with_database():
         Database().get_brand_with_database("Сталь")
     except AttributeError:
         pytest.fail("Нет метода 'get_brand_with_database'")
+    except TypeError:
+        pytest.fail("Методу 'get_brand_with_database' не переданы аргументы!")
     list_brand = Database().get_brand_with_database("Сталь")
     if type(list_brand) != list:
         pytest.fail("Проверьте запрос к базе данных!")
     elif len(list_brand) == 0:
-        pytest.fail("База данных пуста! Заполните данные!")
+        pytest.fail("База данных пуста или нет данных в поле brand! "
+                    "Заполните данные!")
+
+
+def test_get_parameters_with_database():
+    try:
+        Database().get_parameters_with_database("Вал")
+    except AttributeError:
+        pytest.fail("Нет метода 'get_parameters_with_database'")
+    list_brand = Database().get_parameters_with_database("Вал")
+    if type(list_brand) != list:
+        pytest.fail("Проверьте запрос к базе данных!")
+    elif len(list_brand) == 0:
+        pytest.fail("База данных пуста или нет данных для поля parameter! "
+                    "Заполните данные!")
