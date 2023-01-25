@@ -29,6 +29,20 @@ STYLE_RESULT_WIDGET = ("""
                        }
                        """)
 
+STYLE_CONTROL_WIDGET = ("""
+                        #controlWidget{
+                          background-color: white;
+                          border-radius: 10px;
+                        }
+                        """)
+
+STYLE_DATABASE_WIDGET = ("""
+                         #databaseWidget{
+                           background-color: white;
+                           border-radius: 10px;
+                         }
+                         """)
+
 # Стиль для кнопок.
 STYLE_PUSH_BUTTON_CLEAR = ("""
                            #pushButtonClear{
@@ -101,6 +115,126 @@ STYLE_PUSH_BUTTON_EDIT_DATABASE = ("""
                                      background-color: #c9f5ff;
                                    }
                                    """)
+STYLE_PUSH_BUTTON_MATERIAL = ("""
+                              #pushButtonMaterial{
+                                background-color: rgba(0, 0, 0, 0);
+                                image: url(./icons/material.png);
+                                border-radius: 10px;
+                                font-size: 12px;
+                                font-family: bold "Times New Roman";
+                              }
+                              #pushButtonMaterial::hover{
+                                background-color: #e3e3e3;
+                              }
+                              #pushButtonMaterial::pressed{
+                                background-color: #c9f5ff;
+                              }
+                              """)
+STYLE_PUSH_BUTTON_TYPE_PART = ("""
+                               #pushButtonTypePart{
+                                 background-color: rgba(0, 0, 0, 0);
+                                 image: url(./icons/part.png);
+                                 border-radius: 10px;
+                                 font-size: 12px;
+                                 font-family: bold "Times New Roman";
+                               }
+                               #pushButtonTypePart::hover{
+                                 background-color: #e3e3e3;
+                               }
+                               #pushButtonTypePart::hover{
+                                 background-color: #c9f5ff;
+                               }
+                               """)
+STYLE_PUSH_BUTTON_PATTERN = ("""
+                             #pushButtonPattern{
+                               background-color: rgba(0, 0, 0, 0);
+                               image: url(./icons/pattern.png);
+                               border-radius: 10px;
+                               font-size: 12px;
+                               font-family: bold "Times New Roman";
+                             }
+                             #pushButtonPattern::hover{
+                               background-color: #e3e3e3;
+                             }
+                             #pushButtonPattern::pressed{
+                               background-color: #c9f5ff;
+                             }
+                             """)
+STYLE_PUSH_BUTTON_SETTINGS = ("""
+                              #pushButtonSettings{
+                                background-color: rgba(0, 0, 0, 0);
+                                image: url(./icons/settings.png);
+                                border-radius: 10px;
+                                font-size: 12px;
+                                font-family: bold "Times New Roman";
+                              }
+                              #pushButtonSettings::hover{
+                                background-color: #e3e3e3;
+                              }
+                              #pushButtonSettings::pressed{
+                                background-color: #c9f5ff;
+                              }
+                              """)
+STYLE_PUSH_BUTTON_EXIT_DATABASE = ("""
+                                   #pushButtonExitDatabase{
+                                     background-color: rgba(0, 0, 0, 0);
+                                     image: url(./icons/exit.png);
+                                     border-radius: 10px;
+                                     font-size: 12px;
+                                     font-family: bold "Times New Roman";
+                                   }
+                                   #pushButtonExitDatabase::hover{
+                                     background-color: #e3e3e3;
+                                   }
+                                   #pushButtonExitDatabase::pressed{
+                                     background-color: #c9f5ff;
+                                   }
+                                   """)
+STYLE_PUSH_BUTTON_ADD_DATA = ("""
+                             #pushButtonAddData{
+                               background-color: rgba(0, 0, 0, 0);
+                               image: url(./icons/add.png);
+                               border-radius: 10px;
+                               font-size: 12px;
+                               font-family: bold "Times New Roman";
+                             }
+                             #pushButtonAddData::hover{
+                               background-color: #e3e3e3;
+                             }
+                             #pushButtonAddData::pressed{
+                               background-color: #c9f5ff;
+                             }
+                             """)
+STYLE_PUSH_BUTTON_DELETE_DATA = ("""
+                                #pushButtonDeleteData{
+                                  background-color: rgba(0, 0, 0, 0);
+                                  image: url(./icons/clear.png);
+                                  border-radius: 10px;
+                                  font-size: 12px;
+                                  font-family: bold "Times New Roman";
+                                }
+                                #pushButtonDeleteData::hover{
+                                  background-color: #e3e3e3;
+                                }
+                                #pushButtonDeleteData::pressed{
+                                  background-color: #c9f5ff;
+                                }
+                                """)
+STYLE_PUSH_BUTTON_SAVE_DATA = ("""
+                              #pushButtonSaveData{
+                                background-color: rgba(0, 0, 0, 0);
+                                image: url(./icons/save.png);
+                                border-radius: 10px;
+                                font-size: 12px;
+                                font-family: bold "Times New Roman";
+                              }
+                              #pushButtonSaveData::hover{
+                                background-color: #e3e3e3;
+                              }
+                              #pushButtonSaveData::pressed{
+                                background-color: #c9f5ff;
+                              }
+                              """)
 
 # Стиль для полей изменения текста.
 STYLE_LINE_EDIT_DATABASE = ("""
@@ -146,13 +280,42 @@ STYLE_LABEL_NAME_PART = ("""
                            font-family: bold "Times New Roman";
                          }
                          """)
-
 STYLE_LABEL_DATA_TABLE_WIDGET = ("""
                                  #labelDataTableWidget{
                                    font-size: 20px;
                                    font-family: bold "Times New Roman";
                                  }
                                  """)
+STYLE_LABEL_MATERIAL_DATABASE = ("""
+                                 #labelMaterialDatabase{
+                                   font-size: 15px;
+                                   font-family: bold "Times New Roman";
+                                 }
+                                 """)
+STYLE_LABEL_TYPE_PART_DATABASE = ("""
+                                  #labelTypePartDatabase{
+                                    font-size: 15px;
+                                    font-family: bold "Times New Roman";
+                                  }
+                                  """)
+STYLE_LABEL_PATTERN_DATABASE = ("""
+                                #labelPatternDatabase{
+                                  font-size: 15px;
+                                  font-family: bold "Times New Roman";
+                                }
+                                """)
+STYLE_LABEL_SETTINGS_DATABASE = ("""
+                                 #labelSettingsDatabase{
+                                   font-size: 15px;
+                                   font-family: bold "Times New Roman";
+                                 }
+                                 """)
+STYLE_LABEL_EXIT_DATABASE = ("""
+                             #labelExitDatabase{
+                               font-size: 15px;
+                               font-family: bold "Times New Roman";
+                             }
+                             """)
 
 # Стиль для комбинированных кнопок.
 STYLE_COMBO_BOX_MATERIAL = ("""
@@ -279,6 +442,14 @@ STYLE_DATA_TABLE_WIDGET = ("""
                              font-family: bold "Times New Roman";
                            }
                            """)
+STYLE_DATABASE_TABLE_WIDGET = ("""
+                               #databaseTableWidget{
+                                 background-color: white;
+                                 border-radius: 10px;
+                                 font-size: 20px;
+                                 font-family: bold "Times New Roman";
+                               }
+                               """)
 
 # Стиль для изменяемого текста
 STYLE_TEXT_EDIT_RESULT = ("""
