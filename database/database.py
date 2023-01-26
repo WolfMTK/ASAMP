@@ -73,7 +73,7 @@ class Database:
         """Получить марку материала с базы данных."""
         sql = """SELECT materials.brand
                  FROM materials
-                 WHERE materials.material=?
+                 WHERE materials.material = ?
                  GROUP BY materials.brand
                  ORDER BY materials.brand"""
         connect, cursor = self.__get_data_with_database(sql, (material,))
@@ -146,6 +146,34 @@ class Database:
         connect.close()
         return list_id_parameters
 
+    def add_data_in_materials(self, data: Tuple[Any]) -> None:
+        """Добавить данные в таблицу materials."""
+        self.__delete_data_in_materials()
+        sql = """INSERT INTO materials VALUES(null, ?, ?, ?)"""
+        connect, cursor = self.__get_many_data_with_database(sql, data)
+        self.__commit_and_close(connect)
+
+    def add_data_in_patterns(self, data: Tuple[Any]) -> None:
+        """Добавить данные в табллицу patterns."""
+        self.__delete_data_in_patterns()
+        sql = """INSERT INTO patterns VALUES (null, ?, ?, ?, ?)"""
+        connect, cursor = self.__get_many_data_with_database(sql, data)
+        self.__commit_and_close(connect)
+
+    def add_data_in_parameters(self, data: Tuple[Any]) -> None:
+        """Добавить данные в таблицу parameters."""
+        self.__delete_data_in_parameters()
+        sql = """INSERT INTO parameters VALUES (null, ?, ?)"""
+        connect, cursor = self.__get_many_data_with_database(sql, data)
+        self.__commit_and_close(connect)
+
+    def add_data_in_parts(self, data: Tuple[Any]) -> None:
+        """Добавить данные в таблицу parts."""
+        self.__delete_data_in_parts()
+        sql = """INSERT INTO parts VALUES (null, ?)"""
+        connect, cursor = self.__get_many_data_with_database(sql, data)
+        self.__commit_and_close(connect)
+
     def add_data_in_material_pattern(self) -> None:
         """Добавление данных в таблицу material_pattern."""
         list_id = []
@@ -153,6 +181,18 @@ class Database:
             for id_pattern in self.__get_id_patterns():
                 list_id.append((id_material, id_pattern))
         self.__add_data_in_material_pattern(list_id)
+
+    def __delete_data_in_parameters(self) -> None:
+        sql = """DELETE FROM parameters 
+                 WHERE parameters.parameter IS NOT NULL"""
+        connect, cursor = self.__get_data_with_database(sql)
+        self.__commit_and_close(connect)
+
+    def __delete_data_in_parts(self):
+        sql = """DELETE FROM parts
+                 WHERE parts.type_part IS NOT NULL"""
+        connect, cursor = self.__get_data_with_database(sql)
+        self.__commit_and_close(connect)
 
     def __get_id_materials(self):
         sql = """SELECT materials.id
@@ -164,6 +204,12 @@ class Database:
         connect.close()
         return list_materials_id
 
+    def __delete_data_in_patterns(self) -> None:
+        sql = """DELETE FROM patterns 
+                 WHERE patterns.pattern IS NOT NULL"""
+        connect, cursor = self.__get_data_with_database(sql)
+        self.__commit_and_close(connect)
+
     def __get_id_patterns(self):
         sql = """SELECT patterns.id
                  FROM patterns"""
@@ -172,23 +218,38 @@ class Database:
         connect.close()
         return list_patterns_id
 
+    def __delete_data_in_materials(self) -> None:
+        sql = """DELETE FROM materials 
+                 WHERE materials.material IS NOT NULL"""
+        connect, _ = self.__get_data_with_database(sql)
+        self.__commit_and_close(connect)
+
     def __add_data_in_material_pattern(self,
                                        id_list: Tuple[List[str]]) -> None:
+        self.__delete_data_in_material_pattern()
         sql = """INSERT INTO material_pattern VALUES (?, ?)"""
-        connect = sqlite3.connect("database.sqlite")
-        cursor = connect.cursor()
-        cursor.executemany(sql, id_list)
-        connect.commit()
+        connect, cursor = self.__get_many_data_with_database(sql, id_list)
+        self.__commit_and_close(connect)
         self.__delete_duplicate_in_material_pattern()
 
+    def __delete_data_in_material_pattern(self) -> None:
+        sql = """DELETE FROM material_pattern 
+                 WHERE id_material IS NOT NULL"""
+        connect, _ = self.__get_data_with_database(sql)
+        self.__commit_and_close(connect)
+
     def __delete_duplicate_in_material_pattern(self) -> None:
-        """Удалить дубликаты в material part"""
+        """Удалить дубликаты в material_part"""
         sql = """DELETE FROM material_pattern
                  WHERE ROWID NOT IN
                  (SELECT ROWID 
                   FROM material_pattern GROUP BY id_material, 
                                                  id_pattern);"""
         connect, cursor = self.__get_data_with_database(sql)
+        self.__commit_and_close(connect)
+
+    @staticmethod
+    def __commit_and_close(connect: Connection) -> None:
         connect.commit()
         connect.close()
 
@@ -239,16 +300,12 @@ class Database:
             return connect, cursor.execute(sql, data)
         return connect, cursor.execute(sql)
 
-
-def delete_duplicate_data() -> None:
-    with open('scripts/delete_duplicate.sql') as file:
-        request = file.read()
-    connect = sqlite3.connect("database.sqlite")
-    cursor = connect.cursor()
-    cursor.executescript(request)
-    file.close()
-    connect.close()
-
-
-if __name__ == "__main__":
-    print(Database().get_material_with_database('Сталь', '45'))
+    @staticmethod
+    def __get_many_data_with_database(
+            sql: str,
+            data: Any = None
+    ) -> Tuple[Connection, Cursor]:
+        connect = sqlite3.connect("database.sqlite")
+        cursor = connect.cursor()
+        cursor.executemany(sql, data)
+        return connect, cursor
