@@ -1,22 +1,25 @@
-from PySide6.QtWidgets import QWidget, QGridLayout, QPushButton
+from PySide6.QtWidgets import QGridLayout, QPushButton, QWidget
 
 from name_objects.name_objects import (NAME_ACTION_WIDGET,
                                        NAME_PUSH_BUTTON_CLEAR,
                                        NAME_PUSH_BUTTON_EXIT,
                                        NAME_PUSH_BUTTON_RESULT,
                                        NAME_PUSH_BUTTON_SAVE)
-from style.size_objects import (WIDTH_ACTION_WIDGET, HEIGHT_ACTION_WIDGET,
-                                WIDTH_PUSH_BUTTON_CLEAR,
+from style.size_objects import (HEIGHT_ACTION_WIDGET,
                                 HEIGHT_PUSH_BUTTON_CLEAR,
                                 HEIGHT_PUSH_BUTTON_EXIT,
-                                WIDTH_PUSH_BUTTON_EXIT,
-                                WIDTH_PUSH_BUTTON_RESULT,
                                 HEIGHT_PUSH_BUTTON_RESULT,
                                 HEIGHT_PUSH_BUTTON_SAVE,
+                                WIDTH_ACTION_WIDGET,
+                                WIDTH_PUSH_BUTTON_CLEAR,
+                                WIDTH_PUSH_BUTTON_EXIT,
+                                WIDTH_PUSH_BUTTON_RESULT,
                                 WIDTH_PUSH_BUTTON_SAVE)
-from style.style import (STYLE_ACTION_WIDGET, STYLE_PUSH_BUTTON_CLEAR,
-                         STYLE_PUSH_BUTTON_RESULT, STYLE_PUSH_BUTTON_SAVE,
-                         STYLE_PUSH_BUTTON_EXIT)
+from style.style import (STYLE_ACTION_WIDGET,
+                         STYLE_PUSH_BUTTON_CLEAR,
+                         STYLE_PUSH_BUTTON_EXIT,
+                         STYLE_PUSH_BUTTON_RESULT,
+                         STYLE_PUSH_BUTTON_SAVE)
 from widgets.widget import Widget
 
 
