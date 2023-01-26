@@ -10,20 +10,20 @@ class Database:
         self.__create_database_with_table()
 
     @property
-    def get_materials_with_database(self) -> List[str]:
-        """Получить материал с базы данных."""
+    def materials_with_database(self) -> List[str]:
+        """Материал с базы данных."""
         sql = """SELECT materials.material
-                     FROM materials
-                     GROUP BY materials.material
-                     ORDER BY materials.material"""
+                 FROM materials
+                 GROUP BY materials.material
+                 ORDER BY materials.material"""
         connect, cursor = self.__get_data_with_database(sql)
         list_materials = [material[0] for material in cursor.fetchall()]
         connect.close()
         return list_materials
 
     @property
-    def get_type_part_with_database(self):
-        """Получить класс детали с базы данных."""
+    def type_parts_with_database(self):
+        """Классы деталей с базы данных."""
         sql = """SELECT parts.type_part
                  FROM parts
                  GROUP BY parts.type_part
@@ -32,6 +32,42 @@ class Database:
         list_type_parts = [type_part[0] for type_part in cursor.fetchall()]
         connect.close()
         return list_type_parts
+
+    @property
+    def materials_for_database(self) -> List[Tuple[Any]]:
+        """Материалы для базы данных."""
+        sql = """SELECT * FROM materials"""
+        connect, cursor = self.__get_data_with_database(sql)
+        list_data = cursor.fetchall()
+        connect.close()
+        return list_data
+
+    @property
+    def parameters_for_database(self) -> List[Tuple[Any]]:
+        """Параметры для базы данных."""
+        sql = """SELECT * FROM parameters"""
+        connect, cursor = self.__get_data_with_database(sql)
+        list_data = cursor.fetchall()
+        connect.close()
+        return list_data
+
+    @property
+    def patterns_for_database(self) -> List[Tuple[Any]]:
+        """Шаблоны для базы данных."""
+        sql = """SELECT * FROM patterns"""
+        connect, cursor = self.__get_data_with_database(sql)
+        list_data = cursor.fetchall()
+        connect.close()
+        return list_data
+
+    @property
+    def type_parts_for_database(self) -> List[Tuple[Any]]:
+        """Классы деталей для базы данных."""
+        sql = """SELECT * FROM parts"""
+        connect, cursor = self.__get_data_with_database(sql)
+        list_data = cursor.fetchall()
+        connect.close()
+        return list_data
 
     def get_brand_with_database(self, material: str) -> List[str]:
         """Получить марку материала с базы данных."""
