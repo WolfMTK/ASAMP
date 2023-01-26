@@ -455,8 +455,8 @@ def check_text_in_pattern(pattern: str, string: str) -> bool:
     return False
 
 
-def replace_in_string(string: str, name_part: str, replace_string: str) -> str:
-    """Заменить в строке."""
+def replace_in_strings(string: str, name_part: str, replace_string: str) -> str:
+    """Заменить строки."""
     string_copy = string.lower()
     string = string[0] + string_copy[1:].replace(replace_string, name_part)
     return string
@@ -465,7 +465,7 @@ def replace_in_string(string: str, name_part: str, replace_string: str) -> str:
 def replace_list_in_string(
     string: str, name_part: List[str], replace_string: List[str]
 ) -> str:
-    """Заменить в строку список."""
+    """Заменить список в строку."""
     string_copy = string.lower()
     for index, name in enumerate(replace_string):
         repl_str = "[" + name[0:-1].lower() + "]"
