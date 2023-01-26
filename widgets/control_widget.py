@@ -1,38 +1,45 @@
-from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPushButton
+from PySide6.QtWidgets import QGridLayout, QLabel, QPushButton, QWidget
 
-from name_objects.name_objects import (NAME_CONTROL_WIDGET,
-                                       NAME_PUSH_BUTTON_MATERIAL,
-                                       NAME_PUSH_BUTTON_TYPE_PART,
-                                       NAME_PUSH_BUTTON_PATTERN,
-                                       NAME_PUSH_BUTTON_SETTINGS,
-                                       NAME_PUSH_BUTTON_EXIT_DATABASE,
-                                       NAME_LABEL_MATERIAL_DATABASE,
-                                       NAME_LABEL_TYPE_PART_DATABASE,
-                                       NAME_LABEL_PATTERN_DATABASE,
-                                       NAME_LABEL_SETTINGS_DATABASE,
-                                       NAME_LABEL_EXIT_DATABASE)
-from style.size_objects import (WIDTH_CONTROL_WIDGET, HEIGHT_CONTROL_WIDGET,
-                                WIDTH_PUSH_BUTTON_MATERIAL,
-                                WIDTH_PUSH_BUTTON_TYPE_PART,
-                                WIDTH_PUSH_BUTTON_PATTERN,
-                                WIDTH_PUSH_BUTTON_SETTINGS,
-                                WIDTH_PUSH_BUTTON_DATABASE_EXIT,
-                                HEIGHT_PUSH_EDIT_MATERIAL,
-                                HEIGHT_PUSH_EDIT_TYPE_PART,
-                                HEIGHT_PUSH_EDIT_PATTERN,
-                                HEIGHT_PUSH_EDIT_SETTINGS,
-                                HEIGHT_PUSH_EDIT_DATABASE_EXIT)
-from style.style import (STYLE_CONTROL_WIDGET,
-                         STYLE_PUSH_BUTTON_MATERIAL,
-                         STYLE_PUSH_BUTTON_TYPE_PART,
-                         STYLE_PUSH_BUTTON_PATTERN,
-                         STYLE_PUSH_BUTTON_SETTINGS,
-                         STYLE_PUSH_BUTTON_EXIT_DATABASE,
-                         STYLE_LABEL_MATERIAL_DATABASE,
-                         STYLE_LABEL_TYPE_PART_DATABASE,
-                         STYLE_LABEL_PATTERN_DATABASE,
-                         STYLE_LABEL_SETTINGS_DATABASE,
-                         STYLE_LABEL_EXIT_DATABASE)
+from name_objects.name_objects import (
+    NAME_CONTROL_WIDGET,
+    NAME_LABEL_EXIT_DATABASE,
+    NAME_LABEL_MATERIAL_DATABASE,
+    NAME_LABEL_PATTERN_DATABASE,
+    NAME_LABEL_SETTINGS_DATABASE,
+    NAME_LABEL_TYPE_PART_DATABASE,
+    NAME_PUSH_BUTTON_EXIT_DATABASE,
+    NAME_PUSH_BUTTON_MATERIAL,
+    NAME_PUSH_BUTTON_PATTERN,
+    NAME_PUSH_BUTTON_SETTINGS,
+    NAME_PUSH_BUTTON_TYPE_PART,
+)
+from style.size_objects import (
+    HEIGHT_CONTROL_WIDGET,
+    HEIGHT_PUSH_EDIT_DATABASE_EXIT,
+    HEIGHT_PUSH_EDIT_MATERIAL,
+    HEIGHT_PUSH_EDIT_PATTERN,
+    HEIGHT_PUSH_EDIT_SETTINGS,
+    HEIGHT_PUSH_EDIT_TYPE_PART,
+    WIDTH_CONTROL_WIDGET,
+    WIDTH_PUSH_BUTTON_DATABASE_EXIT,
+    WIDTH_PUSH_BUTTON_MATERIAL,
+    WIDTH_PUSH_BUTTON_PATTERN,
+    WIDTH_PUSH_BUTTON_SETTINGS,
+    WIDTH_PUSH_BUTTON_TYPE_PART,
+)
+from style.style import (
+    STYLE_CONTROL_WIDGET,
+    STYLE_PUSH_BUTTON_MATERIAL,
+    STYLE_PUSH_BUTTON_TYPE_PART,
+    STYLE_PUSH_BUTTON_PATTERN,
+    STYLE_PUSH_BUTTON_SETTINGS,
+    STYLE_PUSH_BUTTON_EXIT_DATABASE,
+    STYLE_LABEL_MATERIAL_DATABASE,
+    STYLE_LABEL_TYPE_PART_DATABASE,
+    STYLE_LABEL_PATTERN_DATABASE,
+    STYLE_LABEL_SETTINGS_DATABASE,
+    STYLE_LABEL_EXIT_DATABASE,
+)
 from widgets.widget import Widget
 
 
