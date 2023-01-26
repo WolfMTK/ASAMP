@@ -1,12 +1,16 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QLabel
 
-from name_objects.name_objects import (NAME_DATA_TABLE_WIDGET,
-                                       NAME_LABEL_DATA_TABLE_WIDGET,
-                                       NAME_DATA_WIDGET)
+from name_objects.name_objects import (
+    NAME_DATA_TABLE_WIDGET,
+    NAME_LABEL_DATA_TABLE_WIDGET,
+    NAME_DATA_WIDGET,
+)
 from style.size_objects import WIDTH_DATA_WIDGET, HEIGHT_DATA_WIDGET
-from style.style import (STYLE_DATA_TABLE_WIDGET,
-                         STYLE_LABEL_DATA_TABLE_WIDGET,
-                         STYLE_DATA_WIDGET)
+from style.style import (
+    STYLE_DATA_TABLE_WIDGET,
+    STYLE_LABEL_DATA_TABLE_WIDGET,
+    STYLE_DATA_WIDGET,
+)
 from widgets.widget import Widget
 
 
@@ -73,4 +77,4 @@ class DataWidget(Widget):
 
     def add_text_for_label(self) -> None:
         """Добавить текст для элемента текста."""
-        self.data_label_widget.setText('Анализ технологичности детали')
+        self.data_label_widget.setText("Анализ технологичности детали")
