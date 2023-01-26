@@ -37,7 +37,3 @@ class DocumentWord:
             self.doc.save(f"{self.path}/Результат.docx")
         except PermissionError:
             pass
-
-
-if __name__ == "__main__":
-    DocumentWord("./", "213214 text").run_script()
