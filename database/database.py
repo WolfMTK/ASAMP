@@ -100,19 +100,16 @@ class Database:
                  FROM materials
                  WHERE materials.material = ? 
                  AND materials.brand = ? """
-        connect, cursor = self.__get_data_with_database(sql,
-                                                        (material, brand))
-        material = ' '.join(cursor.fetchall()[0])
+        connect, cursor = self.__get_data_with_database(sql, (material, brand))
+        material = " ".join(cursor.fetchall()[0])
         connect.close()
         return material
 
-    def get_patterns_with_database(self,
-                                   material: str,
-                                   type_part: str,
-                                   brand: str) -> List[str]:
+    def get_patterns_with_database(
+        self, material: str, type_part: str, brand: str
+    ) -> List[str]:
         """Получить шаблоны с базы данных."""
-        sql = (
-            """SELECT patterns.pattern,
+        sql = """SELECT patterns.pattern,
                       patterns.connect_text,
                       patterns.id_parameter
                FROM patterns
@@ -123,10 +120,10 @@ class Database:
                WHERE materials.material = ? 
                AND parts.type_part = ?
                AND materials.brand = ?
-               ORDER BY patterns.id""")
-        connect, cursor = self.__get_data_with_database(sql, (material,
-                                                              type_part,
-                                                              brand))
+               ORDER BY patterns.id"""
+        connect, cursor = self.__get_data_with_database(
+            sql, (material, type_part, brand)
+        )
         list_patterns, list_connect_text, list_id_parameter = [], [], []
         for pattern, connect_text, id_parameter in cursor.fetchall():
             list_patterns.append(pattern)
@@ -224,8 +221,9 @@ class Database:
         connect, _ = self.__get_data_with_database(sql)
         self.__commit_and_close(connect)
 
-    def __add_data_in_material_pattern(self,
-                                       id_list: Tuple[List[str]]) -> None:
+    def __add_data_in_material_pattern(
+        self, id_list: Tuple[List[str]]
+    ) -> None:
         self.__delete_data_in_material_pattern()
         sql = """INSERT INTO material_pattern VALUES (?, ?)"""
         connect, cursor = self.__get_many_data_with_database(sql, id_list)
@@ -243,7 +241,7 @@ class Database:
         sql = """DELETE FROM material_pattern
                  WHERE ROWID NOT IN
                  (SELECT ROWID 
-                  FROM material_pattern GROUP BY id_material, 
+                  FROM material_pattern GROUP BY id_material,
                                                  id_pattern);"""
         connect, cursor = self.__get_data_with_database(sql)
         self.__commit_and_close(connect)
@@ -255,8 +253,7 @@ class Database:
 
     @staticmethod
     def __create_database_with_table() -> None:
-        request = (
-            """
+        request = """
             CREATE TABLE IF NOT EXISTS materials(id INTEGER,
                                                  brand TEXT,
                                                  material TEXT,
@@ -283,7 +280,6 @@ class Database:
                                                         FOREIGN KEY (id_material) REFERENCES materials (id),
                                                         FOREIGN KEY (id_pattern) REFERENCES patterns (id));
             """
-        )
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
         cursor.executescript(request)
@@ -291,8 +287,7 @@ class Database:
 
     @staticmethod
     def __get_data_with_database(
-            sql: str,
-            data: Any = None
+        sql: str, data: Any = None
     ) -> Tuple[Connection, Cursor]:
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
@@ -302,8 +297,7 @@ class Database:
 
     @staticmethod
     def __get_many_data_with_database(
-            sql: str,
-            data: Any = None
+        sql: str, data: Any = None
     ) -> Tuple[Connection, Cursor]:
         connect = sqlite3.connect("database.sqlite")
         cursor = connect.cursor()
