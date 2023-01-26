@@ -1,42 +1,51 @@
-from PySide6.QtWidgets import (QWidget,
-                               QGridLayout,
-                               QHBoxLayout,
-                               QComboBox,
-                               QLabel,
-                               QLineEdit,
-                               QPushButton)
+from PySide6.QtWidgets import (
+    QWidget,
+    QGridLayout,
+    QHBoxLayout,
+    QComboBox,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+)
 
-from name_objects.name_objects import (NAME_PARAMETERS_WIDGET,
-                                       NAME_PUSH_BUTTON_EDIT_DATABASE,
-                                       NAME_LINE_EDIT_DATABASE_EDIT,
-                                       NAME_LABEL_MATERIAL,
-                                       NAME_LABEL_EDIT_DATABASE,
-                                       NAME_LABEL_BRAND,
-                                       NAME_LABEL_TYPE_PART,
-                                       NAME_LABEL_NAME_PART,
-                                       NAME_COMBO_BOX_MATERIAL,
-                                       NAME_COMBO_BOX_BRAND,
-                                       NAME_COMBO_BOX_TYPE_PART)
-from style.size_objects import (WIDTH_PARAMETERS_WIDGET,
-                                HEIGHT_PARAMETERS_WIDGET,
-                                WIDTH_PUSH_BUTTON_EDIT_DATABASE,
-                                HEIGHT_PUSH_EDIT_DATABASE,
-                                WIDTH_COMBO_BOX_MATERIAL,
-                                HEIGHT_COMBO_BOX_MATERIAL,
-                                HEIGHT_COMBO_BOX_BRAND, WIDTH_COMBO_BOX_BRAND,
-                                WIDTH_COMBO_BOX_TYPE_PART,
-                                HEIGHT_COMBO_BOX_TYPE_PART)
-from style.style import (STYLE_PARAMETERS_WIDGET,
-                         STYLE_PUSH_BUTTON_EDIT_DATABASE,
-                         STYLE_LINE_EDIT_DATABASE,
-                         STYLE_LABEL_BRAND,
-                         STYLE_LABEL_EDIT_DATABASE,
-                         STYLE_LABEL_MATERIAL,
-                         STYLE_LABEL_TYPE_PART,
-                         STYLE_LABEL_NAME_PART,
-                         STYLE_COMBO_BOX_MATERIAL,
-                         STYLE_COMBO_BOX_BRAND,
-                         STYLE_COMBO_BOX_TYPE_PART)
+from name_objects.name_objects import (
+    NAME_PARAMETERS_WIDGET,
+    NAME_PUSH_BUTTON_EDIT_DATABASE,
+    NAME_LINE_EDIT_DATABASE_EDIT,
+    NAME_LABEL_MATERIAL,
+    NAME_LABEL_EDIT_DATABASE,
+    NAME_LABEL_BRAND,
+    NAME_LABEL_TYPE_PART,
+    NAME_LABEL_NAME_PART,
+    NAME_COMBO_BOX_MATERIAL,
+    NAME_COMBO_BOX_BRAND,
+    NAME_COMBO_BOX_TYPE_PART,
+)
+from style.size_objects import (
+    WIDTH_PARAMETERS_WIDGET,
+    HEIGHT_PARAMETERS_WIDGET,
+    WIDTH_PUSH_BUTTON_EDIT_DATABASE,
+    HEIGHT_PUSH_EDIT_DATABASE,
+    WIDTH_COMBO_BOX_MATERIAL,
+    HEIGHT_COMBO_BOX_MATERIAL,
+    HEIGHT_COMBO_BOX_BRAND,
+    WIDTH_COMBO_BOX_BRAND,
+    WIDTH_COMBO_BOX_TYPE_PART,
+    HEIGHT_COMBO_BOX_TYPE_PART,
+)
+from style.style import (
+    STYLE_PARAMETERS_WIDGET,
+    STYLE_PUSH_BUTTON_EDIT_DATABASE,
+    STYLE_LINE_EDIT_DATABASE,
+    STYLE_LABEL_BRAND,
+    STYLE_LABEL_EDIT_DATABASE,
+    STYLE_LABEL_MATERIAL,
+    STYLE_LABEL_TYPE_PART,
+    STYLE_LABEL_NAME_PART,
+    STYLE_COMBO_BOX_MATERIAL,
+    STYLE_COMBO_BOX_BRAND,
+    STYLE_COMBO_BOX_TYPE_PART,
+)
 from widgets.widget import Widget
 
 
@@ -56,9 +65,7 @@ class ParametersWidget(Widget):
         self.combo_box_material = QComboBox(self.widget)
         self.combo_box_brand = QComboBox(self.widget)
         self.combo_box_type_part = QComboBox(self.widget)
-        self.push_button_edit_database = QPushButton(
-            self.widget_edit_database
-        )
+        self.push_button_edit_database = QPushButton(self.widget_edit_database)
         self.line_edit_name_part = QLineEdit(self.widget)
         self.add_objects_for_widget()
 
@@ -106,8 +113,9 @@ class ParametersWidget(Widget):
 
     def add_fixed_size_for_widget(self) -> None:
         """Добавить фиксированные размеры для виджета."""
-        self.widget.setFixedSize(WIDTH_PARAMETERS_WIDGET,
-                                 HEIGHT_PARAMETERS_WIDGET)
+        self.widget.setFixedSize(
+            WIDTH_PARAMETERS_WIDGET, HEIGHT_PARAMETERS_WIDGET
+        )
 
     def add_grid_layout_for_widgets(self) -> None:
         """Добавить выравнивание по сетке для виджетов."""
@@ -195,11 +203,13 @@ class ParametersWidget(Widget):
         self.combo_box_type_part.setStyleSheet(STYLE_COMBO_BOX_TYPE_PART)
 
     def add_fixed_size_for_combo_boxes(self) -> None:
-        """Добавить фиксированный размер
-        для комбинированных кнопок."""
-        self.combo_box_material.setFixedSize(WIDTH_COMBO_BOX_MATERIAL,
-                                             HEIGHT_COMBO_BOX_MATERIAL)
-        self.combo_box_brand.setFixedSize(WIDTH_COMBO_BOX_BRAND,
-                                          HEIGHT_COMBO_BOX_BRAND)
-        self.combo_box_type_part.setFixedSize(WIDTH_COMBO_BOX_TYPE_PART,
-                                              HEIGHT_COMBO_BOX_TYPE_PART)
+        """Добавить фиксированный размер для комбинированных кнопок."""
+        self.combo_box_material.setFixedSize(
+            WIDTH_COMBO_BOX_MATERIAL, HEIGHT_COMBO_BOX_MATERIAL
+        )
+        self.combo_box_brand.setFixedSize(
+            WIDTH_COMBO_BOX_BRAND, HEIGHT_COMBO_BOX_BRAND
+        )
+        self.combo_box_type_part.setFixedSize(
+            WIDTH_COMBO_BOX_TYPE_PART, HEIGHT_COMBO_BOX_TYPE_PART
+        )
