@@ -10,7 +10,7 @@ class Database:
         self.__create_database_with_table()
 
     @property
-    def get_material_with_database(self) -> List[str]:
+    def get_materials_with_database(self) -> List[str]:
         """Получить материал с базы данных."""
         sql = """SELECT materials.material
                      FROM materials
@@ -49,12 +49,66 @@ class Database:
         """Получить параметры с базы данных."""
         sql = """SELECT parameters.parameter
                  FROM parameters
-                 JOIN parts on parts.id = parameters.id_part
+                 JOIN parts ON parts.id = parameters.id_part
                  WHERE parts.type_part = ?"""
         connect, cursor = self.__get_data_with_database(sql, (type_part,))
         list_parameters = [parameter[0] for parameter in cursor.fetchall()]
         connect.close()
         return list_parameters
+
+    def get_material_with_database(self, material: str, brand: str) -> str:
+        """Получить материал с базы данных."""
+        sql = """SELECT materials.material,
+                        materials.brand,
+                        materials.GOST
+                 FROM materials
+                 WHERE materials.material = ? 
+                 AND materials.brand = ? """
+        connect, cursor = self.__get_data_with_database(sql,
+                                                        (material, brand))
+        material = ' '.join(cursor.fetchall()[0])
+        connect.close()
+        return material
+
+    def get_patterns_with_database(self,
+                                   material: str,
+                                   type_part: str,
+                                   brand: str) -> List[str]:
+        """Получить шаблоны с базы данных."""
+        sql = (
+            """SELECT patterns.pattern,
+                      patterns.connect_text,
+                      patterns.id_parameter
+               FROM patterns
+               JOIN material_pattern mp ON patterns.id = mp.id_pattern
+               JOIN materials ON mp.id_material = materials.id
+               JOIN parts ON parts.id = patterns.id_part
+               JOIN parameters on parameters.id = patterns.id_parameter
+               WHERE materials.material = ? 
+               AND parts.type_part = ?
+               AND materials.brand = ?
+               ORDER BY patterns.id""")
+        connect, cursor = self.__get_data_with_database(sql, (material,
+                                                              type_part,
+                                                              brand))
+        list_patterns, list_connect_text, list_id_parameter = [], [], []
+        for pattern, connect_text, id_parameter in cursor.fetchall():
+            list_patterns.append(pattern)
+            list_connect_text.append(connect_text)
+            list_id_parameter.append(id_parameter)
+        return [list_patterns, list_connect_text, list_id_parameter]
+
+    def get_id_parameters_with_database(self, type_part: str) -> List[int]:
+        sql = """SELECT parameters.id
+                 FROM parameters
+                 JOIN parts ON parts.id = parameters.id_part
+                 WHERE parts.type_part = ?"""
+        connect, cursor = self.__get_data_with_database(sql, (type_part,))
+        list_id_parameters = [
+            id_parameters[0] for id_parameters in cursor.fetchall()
+        ]
+        connect.close()
+        return list_id_parameters
 
     def add_data_in_material_pattern(self) -> None:
         """Добавление данных в таблицу material_pattern."""
@@ -91,7 +145,7 @@ class Database:
         connect.commit()
         self.__delete_duplicate_in_material_pattern()
 
-    def __delete_duplicate_in_material_pattern(self):
+    def __delete_duplicate_in_material_pattern(self) -> None:
         """Удалить дубликаты в material part"""
         sql = """DELETE FROM material_pattern
                  WHERE ROWID NOT IN
@@ -161,4 +215,4 @@ def delete_duplicate_data() -> None:
 
 
 if __name__ == "__main__":
-    print(Database().get_parameters_with_database('Вал'))
+    print(Database().get_material_with_database('Сталь', '45'))
