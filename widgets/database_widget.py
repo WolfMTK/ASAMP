@@ -1,21 +1,34 @@
-from PySide6.QtWidgets import (QWidget, QTableWidget, QVBoxLayout, QHBoxLayout,
-                               QPushButton, QLayout)
+from PySide6.QtWidgets import (
+    QWidget,
+    QTableWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QPushButton,
+    QLayout,
+)
 
-from name_objects.name_objects import (NAME_DATABASE_WIDGET,
-                                       NAME_PUSH_BUTTON_ADD_DATA,
-                                       NAME_PUSH_BUTTON_DELETE_DATA,
-                                       NAME_PUSH_BUTTON_SAVE_DATA,
-                                       NAME_DATABASE_TABLE_WIDGET)
-from style.size_objects import (WIDTH_PUSH_BUTTON_ADD_DATA,
-                                HEIGHT_PUSH_BUTTON_ADD_DATA,
-                                WIDTH_PUSH_BUTTON_DELETE_DATA,
-                                HEIGHT_PUSH_BUTTON_DELETE_DATA,
-                                WIDTH_PUSH_BUTTON_SAVE_DATA,
-                                HEIGHT_PUSH_BUTTON_SAVE_DATA)
-from style.style import (STYLE_DATABASE_WIDGET, STYLE_PUSH_BUTTON_ADD_DATA,
-                         STYLE_PUSH_BUTTON_DELETE_DATA,
-                         STYLE_PUSH_BUTTON_SAVE_DATA,
-                         STYLE_DATABASE_TABLE_WIDGET)
+from name_objects.name_objects import (
+    NAME_DATABASE_WIDGET,
+    NAME_PUSH_BUTTON_ADD_DATA,
+    NAME_PUSH_BUTTON_DELETE_DATA,
+    NAME_PUSH_BUTTON_SAVE_DATA,
+    NAME_DATABASE_TABLE_WIDGET,
+)
+from style.size_objects import (
+    WIDTH_PUSH_BUTTON_ADD_DATA,
+    HEIGHT_PUSH_BUTTON_ADD_DATA,
+    WIDTH_PUSH_BUTTON_DELETE_DATA,
+    HEIGHT_PUSH_BUTTON_DELETE_DATA,
+    WIDTH_PUSH_BUTTON_SAVE_DATA,
+    HEIGHT_PUSH_BUTTON_SAVE_DATA,
+)
+from style.style import (
+    STYLE_DATABASE_WIDGET,
+    STYLE_PUSH_BUTTON_ADD_DATA,
+    STYLE_PUSH_BUTTON_DELETE_DATA,
+    STYLE_PUSH_BUTTON_SAVE_DATA,
+    STYLE_DATABASE_TABLE_WIDGET,
+)
 from widgets.widget import Widget
 
 
