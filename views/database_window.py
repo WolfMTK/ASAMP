@@ -185,7 +185,7 @@ class DatabaseWindow(QMainWindow):
             )
 
     def remove_name_column_with_table_widget(self) -> None:
-        """Убрать название колонок с таблице."""
+        """Убрать название колонок с таблицы."""
         (
             self.database_widget.database_table_widget.horizontalHeader().setVisible(
                 False
