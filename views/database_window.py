@@ -89,7 +89,6 @@ class DatabaseWindow(QMainWindow):
 
     def add_click_for_buttons(self) -> None:
         """Добавить нажатие для кнопок."""
-
         self.control_widget.push_button_material.clicked.connect(
             self.add_functional_for_table_material
         )
