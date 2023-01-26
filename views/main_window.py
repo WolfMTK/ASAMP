@@ -5,9 +5,11 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QApplication,
                                QMainWindow,
                                QGridLayout,
-                               QCompleter, QTableWidgetItem, QHeaderView)
+                               QCompleter, QTableWidgetItem, QHeaderView,
+                               QFileDialog)
 
 from database.database import Database
+from scripts.save_word import DocumentWord
 from style.size_objects import WIDTH_MAIN_WINDOW, HEIGHT_MAIN_WINDOW
 from style.style import STYLE_COMBO_BOX_BRAND
 from views.database_window import DatabaseWindow
@@ -66,13 +68,17 @@ class MainWindow(QMainWindow):
     def add_click_for_buttons(self) -> None:
         """Добавить нажатие для кнопок."""
         self.action_widget.push_button_exit.clicked.connect(self.close)
-        self.action_widget.push_button_clear.clicked.connect(self.close)
+        self.parameters_widget.push_button_edit_database.clicked.connect(
+            self.open_window_database_for_editing)
         self.action_widget.push_button_result.clicked.connect(
             self.output_result
         )
-        self.action_widget.push_button_save.clicked.connect(self.close)
-        self.parameters_widget.push_button_edit_database.clicked.connect(
-            self.open_window_database_for_editing)
+        self.action_widget.push_button_save.clicked.connect(
+            self.save_text_in_document
+        )
+        self.action_widget.push_button_clear.clicked.connect(
+            self.clear_field_data
+        )
 
     def open_window_database_for_editing(self) -> None:
         """Открыть базы данных для редактирования."""
@@ -182,6 +188,7 @@ class MainWindow(QMainWindow):
         self.result_widget.text_edit_result.setEnabled(False)
 
     def add_functional_for_table_widget(self) -> None:
+        """Добавить функционал для таблицы."""
         parameters = self.__get_parameters(
             self.get_text_from_combo_box_type_part()
         )
@@ -296,15 +303,15 @@ class MainWindow(QMainWindow):
     def connect_text_from_pattern(
             self, data: Tuple[List[str], List[str], List[int]]
     ) -> str:
-        """Соездинить текст из шаблона."""
+        """Создать текст из шаблона."""
         patterns, connect_text, id_pattern = data
-        name_part = self.parameters_widget.line_edit_name_part.text()
         id_pattern = self.replace_id_for_pattern(id_pattern)
         parameters = self.get_data_from_table_widget()
+        name_part = self.parameters_widget.line_edit_name_part.text()
         material = self.__get_material(self.get_text_from_combo_box_material(),
                                        self.get_text_from_combo_box_brand())
         material = material[0].lower() + material[1:]
-        count_text = ' '
+        count_text = ""
         for index, pattern in enumerate(patterns):
             pattern = pattern.rstrip()
             key = True
@@ -326,22 +333,9 @@ class MainWindow(QMainWindow):
                     ) + " "
                 except TypeError:
                     count_text += pattern + " "
-                if "нет" in connect_text[index].lower():
-                    count_text += "\n"
+            if "нет" in connect_text[index].lower():
+                count_text += "\n"
         return count_text.rstrip()
-
-    def add_text_for_name_material(self,
-                                   count_text: str,
-                                   pattern: str) -> Tuple[str, bool]:
-        """Добавить текст для названия материала."""
-        material = self.__get_material(self.get_text_from_combo_box_material(),
-                                       self.get_text_from_combo_box_brand())
-        material = material[0].lower() + material[1:]
-        if check_text_in_pattern(pattern, "[название материала]"):
-            count_text += replace_in_string(
-                pattern, material, "[название материала]"
-            ) + " "
-            return count_text, False
 
     def replace_id_for_pattern(self, id_pattern: List[int], ) -> List[Any]:
         """Заменить id для шаблона."""
@@ -355,7 +349,7 @@ class MainWindow(QMainWindow):
                     id_pattern[j] = "-"
         return id_pattern
 
-    def check_parameters_in_dash(self, index: int):
+    def check_parameters_in_dash(self, index: int) -> bool:
         """Проверка параметров на прочерк."""
         data = self.get_data_from_table_widget()
 
@@ -364,12 +358,42 @@ class MainWindow(QMainWindow):
                 return True
         return False
 
+    def save_text_in_document(self):
+        """Сохранить текст в документ."""
+        text_document = self.result_widget.text_edit_result.toPlainText()
+        if len(text_document) != 0:
+            path_to_directory = self.open_file_dialog()
+            DocumentWord(path_to_directory, text_document).run_script()
+
+    def open_file_dialog(self) -> str:
+        """Открыть окно диалога с выбором директории."""
+        return QFileDialog.getExistingDirectory(self,
+                                                "Сохранение файла",
+                                                "C:/")
+
     def clear_field_data(self) -> None:
         """Очистить данные полей."""
+        self.set_index_for_combo_boxes()
+        self.delete_table_widget()
+        self.result_widget.text_edit_result.setText("")
+        self.deactivate_text_edit_result()
+        self.parameters_widget.line_edit_name_part.setText("")
+
+    def delete_table_widget(self) -> None:
+        """Удалить таблицу."""
+        self.data_widget.data_table_widget.clear()
+        self.data_widget.data_table_widget.setColumnCount(0)
+        self.data_widget.data_table_widget.setRowCount(0)
+
+    def set_index_for_combo_boxes(self) -> None:
+        """Задать индекс для комбинированных кнопок."""
+        self.parameters_widget.combo_box_material.setCurrentIndex(0)
+        self.parameters_widget.combo_box_brand.setCurrentIndex(0)
+        self.parameters_widget.combo_box_type_part.setCurrentIndex(0)
 
     @staticmethod
     def __get_materials() -> List[str]:
-        return Database().get_materials_with_database
+        return Database().materials_with_database
 
     @staticmethod
     def __get_id_parameters(type_part: str) -> List[int]:
@@ -381,7 +405,7 @@ class MainWindow(QMainWindow):
 
     @staticmethod
     def __get_type_parts() -> List[str]:
-        return Database().get_type_part_with_database
+        return Database().type_parts_with_database
 
     @staticmethod
     def __get_patterns(material: str, type_part: str, brand: str) -> List[str]:
