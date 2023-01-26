@@ -15,7 +15,7 @@ def test_error_get_material_with_database():
 
 
 def check_material_with_database():
-    list_material = Database().get_materials_with_database
+    list_material = Database().materials_with_database
     if type(list_material) != list:
         pytest.fail("Проверьте запрос к базе данных!")
     elif len(list_material) == 0:
@@ -31,7 +31,7 @@ def test_error_get_type_part_with_database():
 
 
 def check_type_part_with_database():
-    list_type_part = Database().get_type_part_with_database
+    list_type_part = Database().type_parts_with_database
     if type(list_type_part) != list:
         pytest.fail("Проверьте запрос к базе данных!")
     elif len(list_type_part) == 0:
