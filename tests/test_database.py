@@ -9,13 +9,13 @@ except ImportError:
 
 def test_error_get_material_with_database():
     try:
-        get_material_with_database()
+        check_material_with_database()
     except AttributeError:
         pytest.fail("Нет 'get_material_with_database' в Database!")
 
 
-def get_material_with_database():
-    list_material = Database().get_material_with_database
+def check_material_with_database():
+    list_material = Database().get_materials_with_database
     if type(list_material) != list:
         pytest.fail("Проверьте запрос к базе данных!")
     elif len(list_material) == 0:
@@ -25,12 +25,12 @@ def get_material_with_database():
 
 def test_error_get_type_part_with_database():
     try:
-        get_type_part_with_database()
+        check_type_part_with_database()
     except AttributeError:
         pytest.fail("Нет 'get_type_part_with_database' в Database!")
 
 
-def get_type_part_with_database():
+def check_type_part_with_database():
     list_type_part = Database().get_type_part_with_database
     if type(list_type_part) != list:
         pytest.fail("Проверьте запрос к базе данных!")
@@ -65,3 +65,22 @@ def test_get_parameters_with_database():
     elif len(list_brand) == 0:
         pytest.fail("База данных пуста или нет данных для поля parameter! "
                     "Заполните данные!")
+
+
+def test_get_patterns_with_database():
+    try:
+        Database().get_patterns_with_database('Сталь', 'Вал', '45')
+    except AttributeError:
+        pytest.fail("Нет 'get_patterns_with_database' в Database!")
+    except TypeError:
+        pytest.fail(
+            "Методу 'get_patterns_with_database' не переданы аргументы!")
+    list_patterns = Database().get_patterns_with_database(
+        'Сталь', 'Вал', '45'
+    )
+    if type(list_patterns) != list:
+        pytest.fail("Проверьте запрос к базе данных!")
+    elif len(list_patterns) == 0:
+        pytest.fail(
+            "База данных пуста или нет данных для полей pattern и connect_text! "
+            "Заполните данные!")
