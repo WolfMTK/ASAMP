@@ -1,7 +1,11 @@
 from typing import List, Tuple, Any
 
-from PySide6.QtWidgets import (QMainWindow, QGridLayout, QTableWidgetItem,
-                               QHeaderView)
+from PySide6.QtWidgets import (
+    QMainWindow,
+    QGridLayout,
+    QTableWidgetItem,
+    QHeaderView,
+)
 
 from database.database import Database
 from style.size_objects import WIDTH_DATABASE_WINDOW, HEIGHT_DATABASE_WINDOW
@@ -21,10 +25,12 @@ class DatabaseWindow(QMainWindow):
         self.grid_layout = QGridLayout(self.central_widget)
         self.row: int = ...
         self.column: int = ...
-        self.keys = {"materials": False,
-                     "parts": False,
-                     "patterns": False,
-                     "parameters": False}
+        self.keys = {
+            "materials": False,
+            "parts": False,
+            "patterns": False,
+            "parameters": False,
+        }
         self.add_functional_for_window()
 
     @property
@@ -146,19 +152,15 @@ class DatabaseWindow(QMainWindow):
         """Очистить данные в таблице."""
         index_column = 0
         self.database_widget.database_table_widget.clear()
-        self.database_widget.database_table_widget.setColumnCount(
-            index_column
-        )
+        self.database_widget.database_table_widget.setColumnCount(index_column)
         self.database_widget.database_table_widget.setRowCount(index_column)
 
-    def add_column_in_table_widgets(self,
-                                    row_count: int,
-                                    column_count: int) -> None:
+    def add_column_in_table_widgets(
+        self, row_count: int, column_count: int
+    ) -> None:
         """Добавить колонки в таблицу материалов."""
         self.database_widget.database_table_widget.setRowCount(row_count)
-        self.database_widget.database_table_widget.setColumnCount(
-            column_count
-        )
+        self.database_widget.database_table_widget.setColumnCount(column_count)
 
     def add_data_in_table_widget(self, data: Any) -> None:
         """Добавить данные в таблицу."""
@@ -170,26 +172,30 @@ class DatabaseWindow(QMainWindow):
 
     def set_sections_in_table_widget(self, size) -> None:
         """Задать размеры секций в таблице."""
-        (self.database_widget
-         .database_table_widget
-         .horizontalHeader()
-         .setMinimumSectionSize(30))
+        (
+            self.database_widget.database_table_widget.horizontalHeader().setMinimumSectionSize(
+                30
+            )
+        )
         for i in range(size):
-            (self.database_widget
-             .database_table_widget.horizontalHeader()
-             .setSectionResizeMode(i,
-                                   QHeaderView.ResizeMode.ResizeToContents))
+            (
+                self.database_widget.database_table_widget.horizontalHeader().setSectionResizeMode(
+                    i, QHeaderView.ResizeMode.ResizeToContents
+                )
+            )
 
     def remove_name_column_with_table_widget(self) -> None:
         """Убрать название колонок с таблице."""
-        (self.database_widget.
-         database_table_widget.
-         horizontalHeader().
-         setVisible(False))
-        (self.database_widget.
-         database_table_widget.
-         verticalHeader().
-         setVisible(False))
+        (
+            self.database_widget.database_table_widget.horizontalHeader().setVisible(
+                False
+            )
+        )
+        (
+            self.database_widget.database_table_widget.verticalHeader().setVisible(
+                False
+            )
+        )
 
     def return_keys_to_original_state(self) -> None:
         """Вернуть ключи в исходное состояние."""
@@ -217,8 +223,9 @@ class DatabaseWindow(QMainWindow):
             data_table = []
             for j in range(col_count):
                 data_table.append(
-                    self.database_widget.database_table_widget.item(i, j)
-                    .text()
+                    self.database_widget.database_table_widget.item(
+                        i, j
+                    ).text()
                 )
             data_list.append(data_table)
         return tuple(data_list)
@@ -241,9 +248,7 @@ class DatabaseWindow(QMainWindow):
             try:
                 self.database_widget.database_table_widget.removeRow(self.row)
             except TypeError:
-                self.database_widget.database_table_widget.removeRow(
-                    count - 1
-                )
+                self.database_widget.database_table_widget.removeRow(count - 1)
         else:
             self.database_widget.database_table_widget.removeRow(count - 1)
 
