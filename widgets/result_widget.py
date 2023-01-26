@@ -1,13 +1,14 @@
 from PySide6.QtWidgets import QWidget, QTextEdit, QHBoxLayout
 
 from name_objects.name_objects import NAME_RESULT_WIDGET, NAME_TEXT_EDIT_RESULT
-from style.size_objects import WIDTH_RESULT_WIDGET, HEIGHT_RESULT_WIDGET
+from style.size_objects import WIDTH_RESULT_WIDGET
 from style.style import STYLE_RESULT_WIDGET, STYLE_TEXT_EDIT_RESULT
 from widgets.widget import Widget
 
 
 class ResultWidget(Widget):
     """Виджет с результатом."""
+
     def __init__(self, widget: QWidget) -> None:
         self.widget = QWidget(widget)
         self.text_edit_result = QTextEdit(self.widget)
