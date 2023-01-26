@@ -1,5 +1,5 @@
 import sys
-from typing import List
+from typing import List, Tuple, Dict, Any
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QApplication,
@@ -67,7 +67,9 @@ class MainWindow(QMainWindow):
         """Добавить нажатие для кнопок."""
         self.action_widget.push_button_exit.clicked.connect(self.close)
         self.action_widget.push_button_clear.clicked.connect(self.close)
-        self.action_widget.push_button_result.clicked.connect(self.close)
+        self.action_widget.push_button_result.clicked.connect(
+            self.output_result
+        )
         self.action_widget.push_button_save.clicked.connect(self.close)
         self.parameters_widget.push_button_edit_database.clicked.connect(
             self.open_window_database_for_editing)
@@ -87,8 +89,8 @@ class MainWindow(QMainWindow):
 
     def add_data_in_combo_boxes(self) -> None:
         """Добавить данные для комбинированных кнопок."""
-        material = self.__get_material()
-        type_part = self.__get_type_part()
+        material = self.__get_materials()
+        type_part = self.__get_type_parts()
         self.parameters_widget.combo_box_material.addItems(
             self.__add_null_argument(material)
         )
@@ -111,7 +113,7 @@ class MainWindow(QMainWindow):
         self.parameters_widget.combo_box_material.setEditable(True)
         self.parameters_widget.combo_box_type_part.setEditable(True)
 
-    def add_connect_for_combo_box(self):
+    def add_connect_for_combo_box(self) -> None:
         """Добавить подключение для комбинированной кнопки."""
         self.parameters_widget.combo_box_material.currentTextChanged.connect(
             self.activate_an_inactive_combo_box
@@ -150,6 +152,12 @@ class MainWindow(QMainWindow):
             STYLE_COMBO_BOX_BRAND
         )
 
+    def get_text_from_combo_box_brand(self) -> str:
+        """
+        Получить текст с комбинированной кнопки марки материала.
+        """
+        return self.parameters_widget.combo_box_brand.currentText()
+
     def add_data_in_combo_box_brand(self, material: str) -> None:
         """
         Добавить данные в комбинированную кнопку марки материала
@@ -183,8 +191,8 @@ class MainWindow(QMainWindow):
         self.add_data_in_table_widget(parameters)
         self.set_sections_in_table_widget()
 
-    def get_text_from_combo_box_type_part(self) -> None:
-        """Получение текста с комбинированной кнопки класса детали"""
+    def get_text_from_combo_box_type_part(self) -> str:
+        """Получить текст с комбинированной кнопки класса детали"""
         return self.parameters_widget.combo_box_type_part.currentText()
 
     def clear_data_in_table_widget(self) -> None:
@@ -207,10 +215,13 @@ class MainWindow(QMainWindow):
         self.data_widget.data_table_widget.verticalHeader().setVisible(False)
 
     def add_data_in_table_widget(self, data: List[str]) -> None:
-        """Добавление данных в таблицу."""
+        """Добавить данные в таблицу."""
         for index, parameter in enumerate(data):
             self.data_widget.data_table_widget.setItem(
                 index, 0, QTableWidgetItem(parameter)
+            )
+            self.data_widget.data_table_widget.item(index, 0).setFlags(
+                Qt.ItemIsEnabled
             )
 
     def set_sections_in_table_widget(self) -> None:
@@ -228,16 +239,155 @@ class MainWindow(QMainWindow):
          .horizontalHeader()
          .setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents))
 
+    def output_result(self) -> None:
+        """Вывести результат."""
+        self.result_widget.text_edit_result.setEnabled(True)
+        self.result_widget.text_edit_result.setText(self.create_pattern())
+
+    def create_pattern(self) -> str:
+        """Создать шаблон."""
+        if self.check_data():
+            text_pattern = self.connect_text_from_pattern(
+                self.get_list_pattern_and_connect_text()
+            )
+            return text_pattern
+
+    def check_data(self):
+        """Проверить заполненные данные."""
+        data = self.get_data_from_table_widget()
+        brand = self.get_text_from_combo_box_brand()
+        material = self.get_text_from_combo_box_material()
+        type_part = self.get_text_from_combo_box_type_part()
+        name_part = self.parameters_widget.line_edit_name_part.text()
+        if (len(data) != 0
+                and len(brand) != 0
+                and len(material) != 0
+                and len(type_part) != 0
+                and name_part != ""):
+            return True
+        return False
+
+    def get_data_from_table_widget(self) -> Dict[str, str]:
+        """Получить данные с ячеек таблицы."""
+        data = {}
+        col_count = self.data_widget.data_table_widget.columnCount()
+        row_count = self.data_widget.data_table_widget.rowCount()
+        for index in range(row_count):
+            try:
+                data[self.data_widget.data_table_widget.item(
+                    index, col_count - 2
+                ).text()] = self.data_widget.data_table_widget.item(
+                    index, col_count - 1
+                ).text()
+            except AttributeError:
+                pass
+        return data
+
+    def get_list_pattern_and_connect_text(self) -> Tuple[List[str], List[str]]:
+        """Получить список из шаблона и соединения текста."""
+        brand = self.get_text_from_combo_box_brand()
+        material = self.get_text_from_combo_box_material()
+        type_part = self.get_text_from_combo_box_type_part()
+        patterns, connect_text, id_patterns = self.__get_patterns(material,
+                                                                  type_part,
+                                                                  brand)
+        return patterns, connect_text, id_patterns
+
+    def connect_text_from_pattern(
+            self, data: Tuple[List[str], List[str], List[int]]
+    ) -> str:
+        """Соездинить текст из шаблона."""
+        patterns, connect_text, id_pattern = data
+        name_part = self.parameters_widget.line_edit_name_part.text()
+        id_pattern = self.replace_id_for_pattern(id_pattern)
+        parameters = self.get_data_from_table_widget()
+        material = self.__get_material(self.get_text_from_combo_box_material(),
+                                       self.get_text_from_combo_box_brand())
+        material = material[0].lower() + material[1:]
+        count_text = ' '
+        for index, pattern in enumerate(patterns):
+            pattern = pattern.rstrip()
+            key = True
+            if check_text_in_pattern(pattern, "[название детали]"):
+                count_text += pattern.replace(
+                    "[Название детали]", name_part
+                ) + " "
+                key = False
+            if check_text_in_pattern(pattern, "[название материала]"):
+                count_text += replace_in_string(
+                    pattern, material, "[название материала]"
+                ) + " "
+                key = False
+            if id_pattern[index] == "-" and key:
+                try:
+                    count_text += replace_list_in_string(
+                        pattern, list(parameters.values()),
+                        list(parameters.keys())
+                    ) + " "
+                except TypeError:
+                    count_text += pattern + " "
+                if "нет" in connect_text[index].lower():
+                    count_text += "\n"
+        return count_text.rstrip()
+
+    def add_text_for_name_material(self,
+                                   count_text: str,
+                                   pattern: str) -> Tuple[str, bool]:
+        """Добавить текст для названия материала."""
+        material = self.__get_material(self.get_text_from_combo_box_material(),
+                                       self.get_text_from_combo_box_brand())
+        material = material[0].lower() + material[1:]
+        if check_text_in_pattern(pattern, "[название материала]"):
+            count_text += replace_in_string(
+                pattern, material, "[название материала]"
+            ) + " "
+            return count_text, False
+
+    def replace_id_for_pattern(self, id_pattern: List[int], ) -> List[Any]:
+        """Заменить id для шаблона."""
+        id_parameter = self.__get_id_parameters(
+            self.get_text_from_combo_box_type_part()
+        )
+        for i in range(len(id_parameter)):
+            for j in range(len(id_pattern)):
+                if (id_parameter[i] == id_pattern[j]
+                        and self.check_parameters_in_dash(i)):
+                    id_pattern[j] = "-"
+        return id_pattern
+
+    def check_parameters_in_dash(self, index: int):
+        """Проверка параметров на прочерк."""
+        data = self.get_data_from_table_widget()
+
+        for value, name in enumerate(data.values()):
+            if len(name) <= 1 and value == index:
+                return True
+        return False
+
     def clear_field_data(self) -> None:
         """Очистить данные полей."""
 
     @staticmethod
-    def __get_material() -> List[str]:
-        return Database().get_material_with_database
+    def __get_materials() -> List[str]:
+        return Database().get_materials_with_database
 
     @staticmethod
-    def __get_type_part() -> List[str]:
+    def __get_id_parameters(type_part: str) -> List[int]:
+        return Database().get_id_parameters_with_database(type_part)
+
+    @staticmethod
+    def __get_material(material: str, brand: str) -> str:
+        return Database().get_material_with_database(material, brand)
+
+    @staticmethod
+    def __get_type_parts() -> List[str]:
         return Database().get_type_part_with_database
+
+    @staticmethod
+    def __get_patterns(material: str, type_part: str, brand: str) -> List[str]:
+        return Database().get_patterns_with_database(material,
+                                                     type_part,
+                                                     brand)
 
     @staticmethod
     def __get_brand(material: str) -> List[str]:
@@ -252,6 +402,35 @@ class MainWindow(QMainWindow):
         data = data.copy()
         data.insert(0, '')
         return data
+
+
+def check_text_in_pattern(pattern: str, string: str) -> bool:
+    """Проверить в шаблоне имеющийся текст."""
+    if string in pattern.lower():
+        return True
+    return False
+
+
+def replace_in_string(string: str,
+                      name_part: str,
+                      replace_string: str) -> str:
+    """Заменить в строке."""
+    string_copy = string.lower()
+    string = string[0] + string_copy[1:].replace(replace_string, name_part)
+    return string
+
+
+def replace_list_in_string(string: str,
+                           name_part: List[str],
+                           replace_string: List[str]) -> str:
+    """Заменить в строку список."""
+    string_copy = string.lower()
+    for index, name in enumerate(replace_string):
+        repl_str = "[" + name[0:-1].lower() + "]"
+        if repl_str in string_copy:
+            string = string[0] + string_copy[1:].replace(repl_str,
+                                                         str(name_part[index]))
+            return string
 
 
 def run_main_window() -> None:
