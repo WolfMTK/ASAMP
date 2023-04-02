@@ -15,6 +15,7 @@ class ComboBoxParameters:
         self.__set_object_name()
         self.__set_style_sheet()
         self.__set_fixed_size()
+        self.__set_editable()
         return self.__combo_box
 
     def __set_object_name(self) -> None:
@@ -23,6 +24,8 @@ class ComboBoxParameters:
     def __set_style_sheet(self) -> None:
         self.__combo_box.setStyleSheet(
             f"""#{self.__object_name}{{
+                color: black;
+                background-color: white;
                 border: 1px solid #ced4da;
                 border-radius: 10px;
                 padding-left: 5px;
@@ -42,6 +45,7 @@ class ComboBoxParameters:
                 border: 4px solid #e5e5e5;
             }}
             #{self.__object_name} QListView{{
+                color: black;
                 font-size: 12px;
                 border: 1px solid rgba(0, 0, 0, 10%);
                 padding: 5px;
@@ -62,3 +66,6 @@ class ComboBoxParameters:
 
     def __set_fixed_size(self) -> None:
         self.__combo_box.setFixedSize(self.__width, self.__height)
+
+    def __set_editable(self) -> None:
+        self.__combo_box.setEditable(True)
