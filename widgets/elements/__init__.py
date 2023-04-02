@@ -14,5 +14,5 @@ __all__ = [
     "TableParameters",
     "TextEditParameters",
     "LineEditParameters",
-    "WidgetParameters"
+    "WidgetParameters",
 ]
