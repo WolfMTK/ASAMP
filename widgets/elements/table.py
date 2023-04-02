@@ -19,6 +19,7 @@ class TableParameters:
         self.__table.setStyleSheet(
             f"""#{self.__object_name}{{
                 background-color: white;
+                color: black;
                 border-radius: 10px;
                 font-size: 20px;
                 font-family: bold "Times New Roman";
