@@ -1,5 +1,5 @@
 from .main_threads import MainThreads
-from .result import Result
+from .generated_template import GeneratedTemplate
 
 
-__all__ = ["MainThreads", "Result"]
+__all__ = ["MainThreads", "GeneratedTemplate"]
