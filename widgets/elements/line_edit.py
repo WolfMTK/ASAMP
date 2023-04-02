@@ -23,6 +23,8 @@ class LineEditParameters:
     def __set_style_sheet(self) -> None:
         self.__line_edit.setStyleSheet(
             f"""#{self.__object_name}{{
+                background-color: white;
+                color: black;
                 font-size: 14px;
                 font-family: bold "Times New Roman";
                 border: 1px solid #ced4da;
