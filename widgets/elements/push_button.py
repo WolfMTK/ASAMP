@@ -10,7 +10,7 @@ class PushButtonParameters:
         height: int,
         style: bool = False,
         style_image: bool = False,
-        text: str | None= None,
+        text: str | None = None,
         image_path: str | None = None
     ) -> None:
         self.__push_button = QPushButton(widget)
@@ -41,6 +41,7 @@ class PushButtonParameters:
             self.__push_button.setStyleSheet(
                 f"""#{self.__object_name}{{
                         background-color: rgba(0, 0, 0, 0);
+                        color: black;
                         border-radius: 10px;
                         font-size: 20px;
                         font-family: bold "Times New Roman";
