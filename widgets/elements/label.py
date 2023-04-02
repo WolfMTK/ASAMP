@@ -20,6 +20,7 @@ class LabelParameters:
     def __set_style_sheet(self) -> None:
         self.__label.setStyleSheet(
             f"""#{self.__object_name}{{
+                color: black;
                 font-size: 18px;
                 font-family: bold "Times New Roman";
             }}"""
