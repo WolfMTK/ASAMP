@@ -56,7 +56,7 @@ class PushButtonParameters:
         elif self.__style_image and self.__image_path:
             self.__push_button.setStyleSheet(
                 f"""#{self.__object_name}{{
-                        background-color: rgba(0, 0, 0, 0);
+                        background-color: white;
                         border-radius: 5px;
                         image: url({self.__image_path});
                         font-size: 20px;
