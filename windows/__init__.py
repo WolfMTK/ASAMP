@@ -1,7 +1,3 @@
-from typing import NewType
+from .main_window import MainWindow
 
-from .windows import MainWindow
-
-MainWindowType = NewType("MainWindow", MainWindow)
-
-__all__ = ["MainWindow", "MainWindowType"]
+__all__ = ["MainWindow"]
