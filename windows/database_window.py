@@ -1,284 +1,217 @@
-from typing import List, Tuple, Any
+import logging
+from typing import List, Any, Tuple
 
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QGridLayout,
-    QTableWidgetItem,
-    QHeaderView,
-)
+from PySide6.QtWidgets import QMainWindow, QGridLayout, QTableWidgetItem
+from PySide6.QtCore import Qt
 
-from database.database import Database
-from .settings import WIDTH_WINDOW, HEIGHT_WINDOW
+from database import Database
 from widgets import CentralWidget, ControlWidget, DatabaseWidget
+from .elements import WindowParameters
+from .settings import WIDTH_WINDOW, HEIGHT_WINDOW, TITLE_DATABASE
+from .settings_patern_window import SettingsPattern
+
+
+logger = logging.getLogger(__name__)
+
+CLEAR_INDEX = 0
 
 
 class DatabaseWindow(QMainWindow):
-    """Окно базы данных."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.__keys = {
+            "materials": False,
+            "settings": False,
+            "type_part": False,
+        }
+        self.row: int | None = None
+        self.col: int | None = None
+        self.__parameters: None | List[str] = None
+        self.__add_widgets()
+        self.__set_parameters_window()
+        self.__align_elements()
+        self.__add_elements()
+        self.__set_click_push_buttons()
 
-    def __init__(self):
-        super(DatabaseWindow, self).__init__()
+    def __add_widgets(self) -> None:
         self.central_widget = CentralWidget(self).widget
         self.control_widget = ControlWidget(self)
         self.database_widget = DatabaseWidget(self)
-        self.grid_layout = QGridLayout(self.central_widget)
-        self.row: int = ...
-        self.column: int = ...
-        self.keys = {
-            "materials": False,
-            "parts": False,
-            "patterns": False,
-            "parameters": False,
-        }
-        self.add_functional_for_window()
 
-    @property
-    def materials(self) -> List[Tuple[Any]]:
-        """Материал с базы данных."""
-        return Database().materials_for_database
+    def __set_parameters_window(self) -> None:
+        WindowParameters(
+            self,
+            self.central_widget,
+            TITLE_DATABASE,
+            min_width=WIDTH_WINDOW,
+            min_height=HEIGHT_WINDOW,
+        ).set_parameters()
 
-    @property
-    def parameters(self) -> List[Tuple[Any]]:
-        """Параметры с базы данных."""
-        return Database().parameters_for_database
+    def __align_elements(self) -> None:
+        grid_layout = QGridLayout(self.central_widget)
+        grid_layout.addWidget(self.control_widget.widget, 0, 0, 1, 1)
+        grid_layout.addWidget(self.database_widget.widget, 0, 1, 2, 2)
 
-    @property
-    def patterns(self) -> List[Tuple[Any]]:
-        """Шаблоны с базы данных."""
-        return Database().patterns_for_database
+    def __add_elements(self) -> None:
+        self.table_database = self.database_widget.table_database
+        self.push_button_add = self.database_widget.push_button_add
+        self.push_button_delete = self.database_widget.push_button_delete
+        self.push_button_save = self.database_widget.push_button_save
+        self.push_button_exit = self.control_widget.push_button_exit
+        self.push_button_material = self.control_widget.push_button_material
+        self.push_button_pattern = self.control_widget.push_button_pattern
+        self.push_button_settings = self.control_widget.push_button_settings
+        self.push_button_type_part = self.control_widget.push_button_type_part
 
-    @property
-    def type_parts(self):
-        """Классы деталей с базы данных."""
-        return Database().type_parts_for_database
+    def __set_click_push_buttons(self) -> None:
+        self.push_button_exit.clicked.connect(self.__close_window)
+        self.push_button_material.clicked.connect(self.__active_key_material)
+        self.push_button_settings.clicked.connect(self.__active_key_settings)
+        self.push_button_type_part.clicked.connect(self.__active_key_type_part)
+        self.push_button_pattern.clicked.connect(self.__open_settings_pattern)
+        self.push_button_add.clicked.connect(self.__add_row)
+        self.push_button_delete.clicked.connect(self.__delete_row)
+        self.push_button_save.clicked.connect(self.__save_data)
 
-    def add_functional_for_window(self) -> None:
-        """Добавить функционал для окна."""
-        self.add_minimum_size_for_window()
-        self.add_title_for_window()
-        self.set_central_widget()
-        self.add_grid_layout_for_widgets()
-        self.hide_widget_with_buttons()
-        self.add_click_for_buttons()
+    def __close_window(self) -> None:
+        self.close()
 
-    def add_minimum_size_for_window(self) -> None:
-        """Добавить минимальный размер окна."""
-        self.setMinimumSize(WIDTH_WINDOW, HEIGHT_WINDOW)
+    def __active_key_material(self) -> None:
+        self.__return_keys_to_original_state()
+        self.__keys["materials"] = True
+        self.__update_table()
 
-    def add_title_for_window(self) -> None:
-        """Добавить название для приложения."""
-        self.setWindowTitle("DATABASE")
+    def __active_key_type_part(self) -> None:
+        self.__return_keys_to_original_state()
+        self.__keys["type_part"] = True
+        self.__update_table()
 
-    def set_central_widget(self) -> None:
-        """Установить центральный виджет для окна."""
-        self.setCentralWidget(self.central_widget)
+    def __active_key_settings(self) -> None:
+        self.__return_keys_to_original_state()
+        self.__keys["settings"] = True
+        self.__update_table()
 
-    def add_grid_layout_for_widgets(self) -> None:
-        """Добавить выравнивание по сетке для виджетов."""
-        self.grid_layout.addWidget(self.control_widget.widget, 0, 0, 1, 1)
-        self.grid_layout.addWidget(self.database_widget.widget, 0, 1, 2, 2)
+    def __update_table(self) -> None:
+        self.__clear_table()
+        data = self.__get_data()
+        self.__add_data_in_table(data)
+        self.__connect_table()
 
-    def hide_widget_with_buttons(self) -> None:
-        """Скрыть виджет с кнопками."""
-        self.database_widget.elements_widget.widget.hide()
-
-    def show_widget_with_buttons(self) -> None:
-        """Показать виджет с кнопками."""
-        self.database_widget.elements_widget.widget.show()
-
-    def add_click_for_buttons(self) -> None:
-        """Добавить нажатие для кнопок."""
-        self.control_widget.push_button_material.clicked.connect(
-            self.add_functional_for_table_material
+    def __open_settings_pattern(self) -> None:
+        self.__return_keys_to_original_state()
+        self.__clear_table()
+        self.row = None
+        self.col = None
+        self.settings_pattern = SettingsPattern()
+        self.settings_pattern.setWindowModality(
+            Qt.WindowModality.ApplicationModal
         )
-        self.control_widget.push_button_pattern.clicked.connect(
-            self.add_functional_for_table_pattern
-        )
-        self.control_widget.push_button_settings.clicked.connect(
-            self.add_functional_for_table_parameters
-        )
-        self.control_widget.push_button_type_part.clicked.connect(
-            self.add_functional_for_table_type_part
-        )
-        self.control_widget.push_button_exit.clicked.connect(self.close)
+        self.settings_pattern.show()
 
-        self.database_widget.push_button_add.clicked.connect(
-            self.__add_row_in_table_widget
-        )
-        self.database_widget.push_button_delete.clicked.connect(
-            self.__delete_row_in_table_widget
-        )
-        self.database_widget.push_button_save.clicked.connect(
-            self.add_data_in_database
-        )
+    def __return_keys_to_original_state(self) -> None:
+        for key in self.__keys.keys():
+            self.__keys[key] = False
 
-    def add_functional_for_table_material(self) -> None:
-        """Добавить функционал для таблицы."""
-        data = self.materials
-        self.__add_functional_for_table_widget(data)
-        self.keys["materials"] = True
+    def __get_data(self) -> Tuple[List[Any]]:
+        if self.__keys.get("materials"):
+            data = Database("sql/materials.sql").get_data()
+            return data
+        elif self.__keys.get("type_part"):
+            data = Database("sql/type_parts.sql").get_data()
+            return data
+        elif self.__keys.get("settings"):
+            data = Database("sql/parameters.sql").get_data()
+            return data
 
-    def add_functional_for_table_pattern(self) -> None:
-        """Добавить функционал для таблицы."""
-        data = self.patterns
-        self.__add_functional_for_table_widget(data)
-        self.keys["patterns"] = True
+    def __add_data_in_table(self, data) -> None:
+        if data and data != self.__parameters:
+            self.__parameters = data
+            self.table_database.setRowCount(len(data))
+            self.table_database.setColumnCount(len(data[0]))
+            self.table_database.horizontalHeader().setVisible(False)
+            self.table_database.verticalHeader().setVisible(False)
+            for i in range(len(data)):
+                for j in range(len(data[0])):
+                    self.table_database.setItem(
+                        i, j, QTableWidgetItem(str(data[i][j]))
+                    )
+            self.table_database.resizeColumnsToContents()
+        if not data and self.__parameters is None:
+            self.__create_table()
 
-    def add_functional_for_table_parameters(self) -> None:
-        """Добавить функционал для таблицы."""
-        data = self.parameters
-        self.__add_functional_for_table_widget(data)
-        self.keys["parameters"] = True
+    def __create_table(self) -> None:
+        if self.__keys.get("materials"):
+            self.table_database.setRowCount(1)
+            self.table_database.setColumnCount(5)
+        elif self.__keys.get("type_part"):
+            self.table_database.setRowCount(1)
+            self.table_database.setColumnCount(2)
+        elif self.__keys.get("settings"):
+            self.table_database.setRowCount(1)
+            self.table_database.setColumnCount(4)
+        self.table_database.horizontalHeader().setVisible(False)
+        self.table_database.verticalHeader().setVisible(False)
 
-    def add_functional_for_table_type_part(self) -> None:
-        """Добавить функционал для таблицы."""
-        data = self.type_parts
-        self.__add_functional_for_table_widget(data)
-        self.keys["parts"] = True
+    def __clear_table(self) -> None:
+        self.__parameters = None
+        self.table_database.setColumnCount(CLEAR_INDEX)
+        self.table_database.setRowCount(CLEAR_INDEX)
 
-    def __add_functional_for_table_widget(self, data):
-        self.return_keys_to_original_state()
-        self.clear_data_in_table_widget()
-        self.add_column_in_table_widgets(len(data), len(data[0]))
-        self.remove_name_column_with_table_widget()
-        self.add_data_in_table_widget(data)
-        self.set_sections_in_table_widget(len(data[0]))
-        self.show_widget_with_buttons()
-        self.__set_row_and_column_with()
+    def __connect_table(self) -> None:
+        self.table_database.cellClicked.connect(self.__row_and_column)
 
-    def clear_data_in_table_widget(self) -> None:
-        """Очистить данные в таблице."""
-        index_column = 0
-        self.database_widget.database_table_widget.clear()
-        self.database_widget.database_table_widget.setColumnCount(index_column)
-        self.database_widget.database_table_widget.setRowCount(index_column)
+    def __row_and_column(self, row: int, col: int) -> None:
+        self.row = row
+        self.col = col
 
-    def add_column_in_table_widgets(
-        self, row_count: int, column_count: int
-    ) -> None:
-        """Добавить колонки в таблицу материалов."""
-        self.database_widget.database_table_widget.setRowCount(row_count)
-        self.database_widget.database_table_widget.setColumnCount(column_count)
+    def __add_row(self) -> None:
+        count = self.table_database.rowCount()
+        if self.row:
+            self.table_database.insertRow(self.row + 1)
+        elif count:
+            self.table_database.insertRow(count)
 
-    def add_data_in_table_widget(self, data: Any) -> None:
-        """Добавить данные в таблицу."""
-        for i in range(len(data)):
-            for j in range(len(data[0])):
-                self.database_widget.database_table_widget.setItem(
-                    i, j, QTableWidgetItem(str(data[i][j]))
-                )
+    def __delete_row(self) -> None:
+        count = self.table_database.rowCount()
+        if self.row:
+            self.table_database.removeRow(self.row)
+        elif count:
+            self.table_database.removeRow(count - 1)
 
-    def set_sections_in_table_widget(self, size) -> None:
-        """Задать размеры секций в таблице."""
-        (
-            self.database_widget.database_table_widget.horizontalHeader().setMinimumSectionSize(
-                30
+    def __save_data(self) -> None:
+        if self.__keys.get("materials"):
+            self.__connect_database(
+                "sql/adding_materials.sql", "sql/deleted_materials.sql"
             )
-        )
-        for i in range(size):
-            (
-                self.database_widget.database_table_widget.horizontalHeader().setSectionResizeMode(
-                    i, QHeaderView.ResizeMode.ResizeToContents
-                )
+            self.__update_table()
+        elif self.__keys.get("type_part"):
+            self.__connect_database(
+                "sql/adding_type_parts.sql", "sql/deleted_type_parts.sql"
             )
-
-    def remove_name_column_with_table_widget(self) -> None:
-        """Убрать название колонок с таблицы."""
-        (
-            self.database_widget.database_table_widget.horizontalHeader().setVisible(
-                False
+            self.__update_table()
+        elif self.__keys.get("settings"):
+            self.__connect_database(
+                "sql/adding_settings.sql", "sql/deleted_settings.sql"
             )
-        )
-        (
-            self.database_widget.database_table_widget.verticalHeader().setVisible(
-                False
-            )
-        )
+            self.__update_table()
 
-    def return_keys_to_original_state(self) -> None:
-        """Вернуть ключи в исходное состояние."""
-        for key in self.keys.keys():
-            self.keys[key] = False
+    def __connect_database(self, path_add: str, path_del: str) -> None:
+        try:
+            data = self.__get_data_with_table()
+            Database(path_del).requests_with_database()
+            Database(path_add).requests_with_database(data=data)
+        except (AttributeError, TypeError):
+            pass
+        else:
+            logger.info("База данных обновлена!")
 
-    def add_data_in_database(self) -> None:
-        """Добавить данные в базу данных."""
-        data = convert_string_id_in_int(self.get_data_with_table_widget())
-        if self.keys["materials"]:
-            self.__add_material_in_database(data)
-        elif self.keys["patterns"]:
-            self.__add_patterns_in_database(data)
-        elif self.keys["parameters"]:
-            self.__add_parameters_id_database(data)
-        elif self.keys["parts"]:
-            self.__add_parts_in_database(data)
-
-    def get_data_with_table_widget(self) -> Tuple[List[Any]]:
-        """Получить данные с таблицы."""
-        col_count = self.database_widget.database_table_widget.columnCount()
-        row_count = self.database_widget.database_table_widget.rowCount()
-        data_list = []
+    def __get_data_with_table(self) -> Tuple[List[Any]]:
+        col_count = self.table_database.columnCount()
+        row_count = self.table_database.rowCount()
+        data = ()
         for i in range(row_count):
             data_table = []
-            for j in range(col_count):
-                data_table.append(
-                    self.database_widget.database_table_widget.item(
-                        i, j
-                    ).text()
-                )
-            data_list.append(data_table)
-        return tuple(data_list)
-
-    def __add_row_in_table_widget(self) -> None:
-        count = self.database_widget.table_database.rowCount()
-        if self.row:
-            try:
-                self.database_widget.table_database.insertRow(
-                    self.row + 1
-                )
-            except TypeError:
-                self.database_widget.table_database.insertRow(count)
-        else:
-            self.database_widget.table_database.insertRow(count)
-
-    def __delete_row_in_table_widget(self) -> None:
-        count = self.database_widget.table_database.rowCount()
-        if self.row:
-            try:
-                self.database_widget.table_database.removeRow(self.row)
-            except TypeError:
-                self.database_widget.table_database.removeRow(count - 1)
-        else:
-            self.database_widget.table_database.removeRow(count - 1)
-
-    def __set_row_and_column_with(self):
-        self.database_widget.table_database.cellClicked.connect(
-            self.__get_row_and_column
-        )
-
-    def __get_row_and_column(self, row: int, column: int) -> None:
-        self.row = row
-        self.column = column
-
-    @staticmethod
-    def __add_material_in_database(data: Tuple[List[Any]]) -> None:
-        Database().add_data_in_materials(data)
-        Database().add_data_in_material_pattern()
-
-    @staticmethod
-    def __add_patterns_in_database(data: Tuple[List[Any]]) -> None:
-        Database().add_data_in_patterns(data)
-        Database().add_data_in_material_pattern()
-
-    @staticmethod
-    def __add_parameters_id_database(data: Tuple[List[Any]]) -> None:
-        Database().add_data_in_parameters(data)
-
-    @staticmethod
-    def __add_parts_in_database(data: Tuple[List[Any]]) -> None:
-        Database().add_data_in_parts(data)
-
-
-def convert_string_id_in_int(data) -> Tuple[List[Any]]:
-    """Конвертировать id в целое."""
-    for index in range(len(data)):
-        data[index].pop(0)
-    return data
+            for j in range(1, col_count):
+                data_table.append(self.table_database.item(i, j).text())
+            data += ([*data_table],)
+        return data
