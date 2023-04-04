@@ -45,7 +45,7 @@ class Brand(QThread):
             data.append(brand[0])
         return data
 
-    def __add_data_in_combo_box(self, data):
+    def __add_data_in_combo_box(self, data) -> None:
         if data and data != self.brand:
             self.brand = data
             self.combo_box_brand.clear()
