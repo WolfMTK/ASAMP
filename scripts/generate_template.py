@@ -1,8 +1,10 @@
+from typing import Dict, Any
+
 from docxtpl import DocxTemplate
 
 
 class TemplateWord:
-    def __init__(self, context) -> None:
+    def __init__(self, context: Dict[str, Any]) -> None:
         self.__context = context
 
     def open_doc(self, name: str) -> None:
