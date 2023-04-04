@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QComboBox, QTableWidget
 from .brand import Brand
 from .type_part import TypePart
 from .material import Material
-from .analysis_parameters import AnalysisParameters
+from .parameters import AnalysisParameters
 
 
 logger = logging.getLogger(__name__)
@@ -38,19 +38,19 @@ class MainThreads(QThread):
         self.type_part.close_thread()
         self.analysis_parameters.close_thread()
 
-    def __start_thread_material(self):
+    def __start_thread_material(self) -> None:
         self.material = Material(self.combo_box_material)
         self.material.start()
 
-    def __start_thread_brand(self):
+    def __start_thread_brand(self) -> None:
         self.brand = Brand(self.combo_box_brand, self.combo_box_material)
         self.brand.start()
 
-    def __start_thread_type_part(self):
+    def __start_thread_type_part(self) -> None:
         self.type_part = TypePart(self.combo_box_type_part)
         self.type_part.start()
 
-    def __start_thread_analysis_parameters(self):
+    def __start_thread_analysis_parameters(self) -> None:
         self.analysis_parameters = AnalysisParameters(
             self.table_analysis, self.combo_box_type_part
         )
