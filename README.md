@@ -10,7 +10,9 @@
 
 **PySide6==6.4.2**
 
-**Остальные:** [requirements.txt](https://github.com/WolfMTK/ASAMP/blob/master/requirements.txt)
+**docxtpl==0.16.6**
+
+**python-docx==0.8.11**
 
 ## Запуск проекта
 
