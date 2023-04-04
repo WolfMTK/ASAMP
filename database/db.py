@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple, Any
 from sqlite3 import Connection, Cursor
 
 from ._decorators import open_database
@@ -16,19 +16,29 @@ class Database:
             connect.commit()
 
     @open_database
-    def get_data(self, connect: Connection, cursor: Cursor, **kwargs) -> List[str]:
+    def get_data(
+        self, connect: Connection, cursor: Cursor, **kwargs
+    ) -> List[str]:
         if self.__sql_path:
             sql = self.__open_file()
             cursor.execute(sql, kwargs)
             return cursor.fetchall()
 
+    @open_database
     def requests_with_database(
-        self, connect: Connection, cursor: Cursor, **kwargs
+        self,
+        connect: Connection,
+        cursor: Cursor,
+        data: Tuple[Any] = None,
+        **kwargs
     ) -> None:
-        if self.__sql_path:
+        if self.__sql_path and kwargs or data:
             sql = self.__open_file()
-            cursor.executemany(sql, **kwargs)
-            connect.commit()
+            cursor.executemany(sql, kwargs or data)
+        elif self.__sql_path:
+            sql = self.__open_file()
+            cursor.execute(sql)
+        connect.commit()
 
     def __open_file(self) -> str:
         with open(self.__sql_path, "r") as sql:
