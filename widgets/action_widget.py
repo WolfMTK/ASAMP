@@ -23,7 +23,7 @@ class ActionWidget:
         self.__add_push_button()
         self.__align_elements()
 
-    def __add_push_button(self):
+    def __add_push_button(self) -> None:
         self.push_button_clear = PushButtonParameters(
             self.widget,
             NAME_PUSH_BUTTON,

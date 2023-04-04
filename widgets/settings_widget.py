@@ -50,7 +50,7 @@ class SettingsWindget:
             self.widget, NAME_LABEL, "Параметры:"
         ).label
 
-    def __align_elements(self):
+    def __align_elements(self) -> None:
         horizontal_layout = QHBoxLayout(self.widget)
         horizontal_layout.addWidget(self.label_settings)
         horizontal_layout.addWidget(self.push_button_settings)
@@ -73,13 +73,13 @@ class ParametersWidget:
         self.__add_line_edit()
         self.__align_elements()
 
-    def __add_widget(self):
+    def __add_widget(self) -> None:
         self.widget_settings = SettingsWindget(self.widget)
 
-    def __add_push_button(self):
+    def __add_push_button(self) -> None:
         self.push_button_settings = self.widget_settings.push_button_settings
 
-    def __add_labels(self):
+    def __add_labels(self) -> None:
         self.label_settings = self.widget_settings.label_settings
         self.label_material = LabelParameters(
             self.widget, NAME_LABEL, "Материал детали:"
@@ -119,7 +119,7 @@ class ParametersWidget:
             self.widget, NAME_LINE_EDIT, WIDTH_LINE_EDIT, HEIGHT_LINE_EDIT
         ).line_edit
 
-    def __align_elements(self):
+    def __align_elements(self) -> None:
         grid_layout = QGridLayout(self.widget)
         grid_layout.addWidget(self.combo_box_material, 3, 1, 1, 1)
         grid_layout.addWidget(self.combo_box_brand, 4, 1, 1, 1)
