@@ -1,5 +1,7 @@
 import sys
 import logging
+import shutil
+from pathlib import Path
 
 from PySide6.QtWidgets import QApplication
 
@@ -8,11 +10,15 @@ from database import Database
 
 
 def main() -> None:
+    path = Path('./cash')
+    path.mkdir(parents=True, exist_ok=True)
     Database("sql/create_table.sql").create_table()
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec())
+    app.exec()
+    shutil.rmtree(path)
+    sys.exit()
 
 
 if __name__ == "__main__":
