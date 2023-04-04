@@ -32,7 +32,7 @@ class Material(QThread):
     def close_thread(self) -> None:
         self.status = False
 
-    def __add_data_in_combo_box(self, data):
+    def __add_data_in_combo_box(self, data) -> None:
         if data and data != self.materials:
             self.materials = data
             self.combo_box_material.clear()
