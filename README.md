@@ -4,7 +4,7 @@
 
 ## Версия Python, которая используется в проекте
 
-[Python 3.8.10](https://www.python.org/downloads/release/python-3810/)
+[Python 3.11.2](https://www.python.org/downloads/)
 
 ## Применяемые библиотеки в данном проекте
 
@@ -21,13 +21,12 @@
 
 `windows: py -m pip install -r requirements.txt`
 
+3) Запуск приложения:
+
+`linux: python app.py или python3 app.py`
+
+`windows: py app.py или python app.py`
+
 ## Лицензия
 
 [License: MIT](https://github.com/WolfMTK/ASAMP/blob/master/LICENSE)
-
-## TODO:
-
-1) Убрать повторы в коде;
-2) Скорректировать названия методов;
-3) Переработать архитектуру;
-4) Перевести на версию 3.11.
