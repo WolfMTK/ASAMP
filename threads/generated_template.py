@@ -2,6 +2,7 @@ import logging
 
 from PySide6.QtCore import QThread
 from PySide6.QtWidgets import QComboBox, QTableWidget, QLineEdit
+from docx.opc.exceptions import PackageNotFoundError
 
 from database import Database
 from scripts.generate_template import TemplateWord
@@ -18,6 +19,7 @@ class GeneratedTemplate(QThread):
         combo_box_brand: QComboBox,
         table_analysis: QTableWidget,
         line_edit_name_part: QLineEdit,
+        save_name: str,
     ) -> None:
         super().__init__()
         self.__combo_box_material = combo_box_material
@@ -25,11 +27,13 @@ class GeneratedTemplate(QThread):
         self.__combo_box_brand = combo_box_brand
         self.__table_analysis = table_analysis
         self.__line_edit_name_part = line_edit_name_part
+        self.__save_name = save_name
 
-    def run(self):
-        data = self.__get_data() | self.__get_data_with_table()
+    def run(self) -> None:
+        data = self.__get_data()
         if data:
-            self.__generate_doc(data)
+            self.__generate_doc(data | self.__get_data_with_table())
+            self.msleep(1)
 
     def __get_data(self) -> dict[str, str]:
         type_part = self.__combo_box_type_part.currentText()
@@ -69,10 +73,13 @@ class GeneratedTemplate(QThread):
                 )
         return data
 
-    def __generate_doc(self, data):
+    def __generate_doc(self, data) -> None:
         template = TemplateWord(data)
         with open("path_template.txt") as file:
-            template.open_doc(file.read())
-            template.render_doc()
-            template.save_doc("cash/временный_шаблон.docx")
+            try:
+                template.open_doc(file.read())
+                template.render_doc()
+                template.save_doc(self.__save_name)
+            except PackageNotFoundError:
+                pass
             file.close()
