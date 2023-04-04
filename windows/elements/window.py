@@ -28,4 +28,5 @@ class WindowParameters:
         self.__window.setWindowTitle(self.__title)
 
     def __set_minimum_size(self) -> None:
-        self.__window.setMinimumSize(self.__min_width, self.__min_height)
+        if self.__min_width and self.__min_height:
+            self.__window.setMinimumSize(self.__min_width, self.__min_height)
